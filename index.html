@@ -3,94 +3,285 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aayushman Singh - Floating Letters</title>
+<title>Aayushman Singh - Flex Dashboard</title>
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body, html{
+        width:100%;
+        height:100%;
+        font-family: Arial, sans-serif;
         overflow: hidden;
-        font-family: 'Arial', sans-serif;
+        background: #111;
+        color: #fff;
     }
-    .letter {
-        position: absolute;
-        font-size: 60px;
-        font-weight: bold;
-        color: #00FFFF;
-        text-shadow: 0 0 10px #00FFFF, 0 0 20px #FF00FF, 0 0 30px #FFFF00;
-        cursor: pointer;
-        user-select: none;
-        transition: transform 0.5s ease, color 0.5s ease;
+    .page{
+        width:100%;
+        height:100%;
+        position:absolute;
+        top:0;
+        left:0;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        transition: opacity 0.5s ease;
+    }
+    .hidden{opacity:0;pointer-events:none;}
+    h1{margin-bottom:50px;}
+    .buttons{
+        display:flex;
+        flex-wrap:wrap;
+        gap:15px;
+        justify-content:center;
+    }
+    button{
+        padding:15px 25px;
+        font-size:18px;
+        border:none;
+        border-radius:8px;
+        cursor:pointer;
+        background: linear-gradient(45deg,#00FFFF,#FF00FF,#FFFF00);
+        color:#111;
+        font-weight:bold;
+        transition: transform 0.3s ease;
+    }
+    button:hover{transform: scale(1.1);}
+    canvas{
+        position:absolute;
+        top:0;
+        left:0;
+    }
+    .backBtn{
+        position:absolute;
+        top:20px;
+        left:20px;
+        padding:10px 15px;
+        background:#FF4500;
+        border:none;
+        border-radius:5px;
+        font-weight:bold;
+        cursor:pointer;
+        z-index:1000;
     }
 </style>
 </head>
 <body>
 
+<div id="menu" class="page">
+    <h1>Choose Your Flex Effect</h1>
+    <div class="buttons">
+        <button data-effect="holo">Hologram Name</button>
+        <button data-effect="fire">Fire & Smoke Name</button>
+        <button data-effect="water">Water Ripple Name</button>
+        <button data-effect="cyber">Cyberpunk Neon Name</button>
+        <button data-effect="galaxy">Galaxy / Space Name</button>
+        <button data-effect="laser">Laser Beam Name</button>
+        <button data-effect="magic">Interactive Magic Name</button>
+        <button data-effect="music">Music-Responsive Name</button>
+    </div>
+</div>
+
+<button id="back" class="backBtn hidden">← Back</button>
+<canvas id="canvas"></canvas>
+
 <script>
+const menu = document.getElementById('menu');
+const backBtn = document.getElementById('back');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let currentEffect = null;
+
 const name = "Aayushman Singh";
-const letters = [];
-const colors = ["#00FFFF", "#FF00FF", "#FFFF00", "#FF4500", "#ADFF2F"];
-const bodyWidth = window.innerWidth;
-const bodyHeight = window.innerHeight;
 
-// Create letters
-for(let i=0; i<name.length; i++){
-    const span = document.createElement("span");
-    span.className = "letter";
-    span.textContent = name[i];
-    document.body.appendChild(span);
-    const x = Math.random() * bodyWidth;
-    const y = Math.random() * bodyHeight;
-    span.style.left = x + "px";
-    span.style.top = y + "px";
-    letters.push({
-        el: span,
-        x: x,
-        y: y,
-        vx: (Math.random()-0.5)*4,
-        vy: (Math.random()-0.5)*4,
-        color: colors[Math.floor(Math.random()*colors.length)]
-    });
-}
-
-// Animate letters floating
-function animate(){
-    letters.forEach(l=>{
-        l.x += l.vx;
-        l.y += l.vy;
-
-        // Bounce from edges
-        if(l.x < 0 || l.x > bodyWidth - 30) l.vx *= -1;
-        if(l.y < 0 || l.y > bodyHeight - 30) l.vy *= -1;
-
-        l.el.style.left = l.x + "px";
-        l.el.style.top = l.y + "px";
-    });
-    requestAnimationFrame(animate);
-}
-
-// Click letters to explode
-letters.forEach(l=>{
-    l.el.addEventListener('click', ()=>{
-        for(let i=0;i<letters.length;i++){
-            letters[i].vx = (Math.random()-0.5)*15;
-            letters[i].vy = (Math.random()-0.5)*15;
-            letters[i].el.style.color = colors[Math.floor(Math.random()*colors.length)];
-        }
-        // Return to slow float after 0.7 sec
-        setTimeout(()=>{
-            letters.forEach(ll=>{
-                ll.vx = (Math.random()-0.5)*4;
-                ll.vy = (Math.random()-0.5)*4;
-            });
-        },700);
+// Handle button clicks
+document.querySelectorAll('button[data-effect]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+        currentEffect = btn.getAttribute('data-effect');
+        menu.classList.add('hidden');
+        backBtn.classList.remove('hidden');
+        startEffect(currentEffect);
     });
 });
 
-animate();
+// Back button
+backBtn.addEventListener('click', ()=>{
+    currentEffect = null;
+    menu.classList.remove('hidden');
+    backBtn.classList.add('hidden');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+});
+
+// EFFECTS
+function startEffect(effect){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    cancelAnimationFrame(animateId);
+    if(effect==="holo") hologramEffect();
+    else if(effect==="fire") fireEffect();
+    else if(effect==="water") waterEffect();
+    else if(effect==="cyber") cyberEffect();
+    else if(effect==="galaxy") galaxyEffect();
+    else if(effect==="laser") laserEffect();
+    else if(effect==="magic") magicEffect();
+    else if(effect==="music") musicEffect();
+}
+
+// Placeholder implementations (simplified for demo)
+let animateId;
+function hologramEffect(){
+    let angle = 0;
+    function animate(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.save();
+        ctx.translate(canvas.width/2, canvas.height/2);
+        ctx.rotate(angle);
+        ctx.font = "bold 80px Arial";
+        ctx.fillStyle = "cyan";
+        ctx.shadowColor="cyan";
+        ctx.shadowBlur=20;
+        ctx.fillText(name,-ctx.measureText(name).width/2,0);
+        ctx.restore();
+        angle += 0.02;
+        animateId = requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+function fireEffect(){
+    let particles = [];
+    function animate(){
+        ctx.fillStyle = "rgba(0,0,0,0.2)";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        // draw name
+        ctx.font="bold 70px Arial";
+        ctx.fillStyle="#FF4500";
+        ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2);
+        // fire sparks
+        if(Math.random()<0.3){
+            particles.push({x:canvas.width/2+Math.random()*200-100,y:canvas.height/2+10,vy:-Math.random()*4-1,size:Math.random()*3+2});
+        }
+        particles.forEach((p,i)=>{
+            ctx.fillStyle="orange";
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+            ctx.fill();
+            p.y += p.vy;
+            if(p.y<0) particles.splice(i,1);
+        });
+        animateId = requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+function waterEffect(){
+    let time=0;
+    function animate(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.font="bold 80px Arial";
+        ctx.fillStyle="#00BFFF";
+        let y = canvas.height/2 + Math.sin(time)*20;
+        ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,y);
+        time+=0.1;
+        animateId = requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+function cyberEffect(){
+    let offset=0;
+    function animate(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for(let i=0;i<100;i++){
+            ctx.fillStyle="rgba(0,255,0,0.1)";
+            ctx.fillRect(Math.random()*canvas.width,Math.random()*canvas.height,2,2);
+        }
+        ctx.font="bold 80px Arial";
+        ctx.fillStyle="#FF00FF";
+        ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2+Math.sin(offset)*20);
+        offset+=0.05;
+        animateId = requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+function galaxyEffect(){
+    let stars=[];
+    for(let i=0;i<200;i++){
+        stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,speed:Math.random()*0.5+0.2});
+    }
+    function animate(){
+        ctx.fillStyle="black";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        stars.forEach(s=>{
+            ctx.fillStyle="white";
+            ctx.beginPath();
+            ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+            ctx.fill();
+            s.x+=s.speed;
+            if(s.x>canvas.width)s.x=0;
+        });
+        ctx.font="bold 80px Arial";
+        ctx.fillStyle="#FFD700";
+        ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2);
+        animateId = requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+function laserEffect(){
+    let angle=0;
+    function animate(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.font="bold 80px Arial";
+        ctx.strokeStyle="#00FFFF";
+        ctx.lineWidth=2;
+        ctx.strokeText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2);
+        for(let i=0;i<5;i++){
+            ctx.strokeStyle=`rgba(0,255,255,${Math.random()})`;
+            ctx.beginPath();
+            ctx.moveTo(Math.random()*canvas.width,Math.random()*canvas.height);
+            ctx.lineTo(canvas.width/2,canvas.height/2);
+            ctx.stroke();
+        }
+        angle+=0.05;
+        animateId = requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+function magicEffect(){
+    let letters=[];
+    for(let i=0;i<name.length;i++){
+        letters.push({x:canvas.width/2,y:canvas.height/2,vx:(Math.random()-0.5)*6,vy:(Math.random()-0.5)*6,char:name[i],color:`hsl(${Math.random()*360},100%,50%)`});
+    }
+    function animate(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        letters.forEach(l=>{
+            l.x+=l.vx;l.y+=l.vy;
+            if(l.x<0||l.x>canvas.width)l.vx*=-1;
+            if(l.y<0||l.y>canvas.height)l.vy*=-1;
+            ctx.fillStyle=l.color;
+            ctx.font="bold 60px Arial";
+            ctx.fillText(l.char,l.x,l.y);
+        });
+        animateId = requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+function musicEffect(){
+    let t=0;
+    function animate(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.font="bold 80px Arial";
+        ctx.fillStyle=`hsl(${t%360},100%,50%)`;
+        ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2);
+        t+=1;
+        animateId = requestAnimationFrame(animate);
+    }
+    animate();
+}
 </script>
 </body>
 </html>
