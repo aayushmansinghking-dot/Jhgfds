@@ -5,83 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aayushman Singh - Flex Dashboard</title>
 <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body, html{
-        width:100%;
-        height:100%;
-        font-family: Arial, sans-serif;
-        overflow: hidden;
-        background: #111;
-        color: #fff;
-    }
-    .page{
-        width:100%;
-        height:100%;
-        position:absolute;
-        top:0;
-        left:0;
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        align-items:center;
-        transition: opacity 0.5s ease;
-    }
-    .hidden{opacity:0;pointer-events:none;}
-    h1{margin-bottom:50px;}
-    .buttons{
-        display:flex;
-        flex-wrap:wrap;
-        gap:15px;
-        justify-content:center;
-    }
-    button{
-        padding:15px 25px;
-        font-size:18px;
-        border:none;
-        border-radius:8px;
-        cursor:pointer;
-        background: linear-gradient(45deg,#00FFFF,#FF00FF,#FFFF00);
-        color:#111;
-        font-weight:bold;
-        transition: transform 0.3s ease;
-    }
-    button:hover{transform: scale(1.1);}
-    canvas{
-        position:absolute;
-        top:0;
-        left:0;
-    }
-    .backBtn{
-        position:absolute;
-        top:20px;
-        left:20px;
-        padding:10px 15px;
-        background:#FF4500;
-        border:none;
-        border-radius:5px;
-        font-weight:bold;
-        cursor:pointer;
-        z-index:1000;
-    }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body, html{width:100%;height:100%;font-family:Arial,sans-serif;overflow:hidden;background:#111;color:#fff;}
+  .page{
+    width:100%;height:100%;position:absolute;top:0;left:0;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    transition: opacity 0.3s ease;
+  }
+  .hidden{opacity:0;pointer-events:none;}
+  h1{margin-bottom:50px;text-align:center;}
+  .buttons{display:flex;flex-wrap:wrap;gap:15px;justify-content:center;z-index:10;}
+  button{
+    padding:15px 25px;font-size:18px;border:none;border-radius:8px;cursor:pointer;
+    background: linear-gradient(45deg,#00FFFF,#FF00FF,#FFFF00);color:#111;font-weight:bold;
+    transition: transform 0.3s ease;
+    z-index:10;position:relative;
+  }
+  button:hover{transform: scale(1.1);}
+  #back{
+    position:absolute;top:20px;left:20px;padding:10px 15px;background:#FF4500;
+    border:none;border-radius:5px;font-weight:bold;cursor:pointer;z-index:10;
+    display:none;
+  }
+  canvas{
+    position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;
+  }
 </style>
 </head>
 <body>
 
 <div id="menu" class="page">
-    <h1>Choose Your Flex Effect</h1>
-    <div class="buttons">
-        <button data-effect="holo">Hologram Name</button>
-        <button data-effect="fire">Fire & Smoke Name</button>
-        <button data-effect="water">Water Ripple Name</button>
-        <button data-effect="cyber">Cyberpunk Neon Name</button>
-        <button data-effect="galaxy">Galaxy / Space Name</button>
-        <button data-effect="laser">Laser Beam Name</button>
-        <button data-effect="magic">Interactive Magic Name</button>
-        <button data-effect="music">Music-Responsive Name</button>
-    </div>
+  <h1>Choose Your Flex Effect</h1>
+  <div class="buttons">
+    <button data-effect="holo">Hologram Name</button>
+    <button data-effect="fire">Fire & Smoke Name</button>
+    <button data-effect="water">Water Ripple Name</button>
+    <button data-effect="cyber">Cyberpunk Neon Name</button>
+    <button data-effect="galaxy">Galaxy / Space Name</button>
+    <button data-effect="laser">Laser Beam Name</button>
+    <button data-effect="magic">Interactive Magic Name</button>
+    <button data-effect="music">Music-Responsive Name</button>
+  </div>
 </div>
 
-<button id="back" class="backBtn hidden">← Back</button>
+<button id="back">← Back</button>
 <canvas id="canvas"></canvas>
 
 <script>
@@ -91,25 +58,27 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
 let currentEffect = null;
-
 const name = "Aayushman Singh";
+let animateId;
 
-// Handle button clicks
+// BUTTON CLICK HANDLER
 document.querySelectorAll('button[data-effect]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
         currentEffect = btn.getAttribute('data-effect');
         menu.classList.add('hidden');
-        backBtn.classList.remove('hidden');
+        backBtn.style.display = 'block';
         startEffect(currentEffect);
     });
 });
 
-// Back button
+// BACK BUTTON
 backBtn.addEventListener('click', ()=>{
     currentEffect = null;
     menu.classList.remove('hidden');
-    backBtn.classList.add('hidden');
+    backBtn.style.display = 'none';
+    cancelAnimationFrame(animateId);
     ctx.clearRect(0,0,canvas.width,canvas.height);
 });
 
@@ -127,37 +96,34 @@ function startEffect(effect){
     else if(effect==="music") musicEffect();
 }
 
-// Placeholder implementations (simplified for demo)
-let animateId;
+// SIMPLE DEMO EFFECTS
 function hologramEffect(){
-    let angle = 0;
+    let angle=0;
     function animate(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
         ctx.save();
         ctx.translate(canvas.width/2, canvas.height/2);
         ctx.rotate(angle);
-        ctx.font = "bold 80px Arial";
-        ctx.fillStyle = "cyan";
+        ctx.font="bold 80px Arial";
+        ctx.fillStyle="cyan";
         ctx.shadowColor="cyan";
         ctx.shadowBlur=20;
         ctx.fillText(name,-ctx.measureText(name).width/2,0);
         ctx.restore();
-        angle += 0.02;
-        animateId = requestAnimationFrame(animate);
+        angle+=0.02;
+        animateId=requestAnimationFrame(animate);
     }
     animate();
 }
 
 function fireEffect(){
-    let particles = [];
+    let particles=[];
     function animate(){
-        ctx.fillStyle = "rgba(0,0,0,0.2)";
+        ctx.fillStyle="rgba(0,0,0,0.2)";
         ctx.fillRect(0,0,canvas.width,canvas.height);
-        // draw name
         ctx.font="bold 70px Arial";
         ctx.fillStyle="#FF4500";
         ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2);
-        // fire sparks
         if(Math.random()<0.3){
             particles.push({x:canvas.width/2+Math.random()*200-100,y:canvas.height/2+10,vy:-Math.random()*4-1,size:Math.random()*3+2});
         }
@@ -166,10 +132,10 @@ function fireEffect(){
             ctx.beginPath();
             ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
             ctx.fill();
-            p.y += p.vy;
+            p.y+=p.vy;
             if(p.y<0) particles.splice(i,1);
         });
-        animateId = requestAnimationFrame(animate);
+        animateId=requestAnimationFrame(animate);
     }
     animate();
 }
@@ -180,10 +146,10 @@ function waterEffect(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
         ctx.font="bold 80px Arial";
         ctx.fillStyle="#00BFFF";
-        let y = canvas.height/2 + Math.sin(time)*20;
+        let y=canvas.height/2 + Math.sin(time)*20;
         ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,y);
         time+=0.1;
-        animateId = requestAnimationFrame(animate);
+        animateId=requestAnimationFrame(animate);
     }
     animate();
 }
@@ -200,7 +166,7 @@ function cyberEffect(){
         ctx.fillStyle="#FF00FF";
         ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2+Math.sin(offset)*20);
         offset+=0.05;
-        animateId = requestAnimationFrame(animate);
+        animateId=requestAnimationFrame(animate);
     }
     animate();
 }
@@ -224,13 +190,12 @@ function galaxyEffect(){
         ctx.font="bold 80px Arial";
         ctx.fillStyle="#FFD700";
         ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2);
-        animateId = requestAnimationFrame(animate);
+        animateId=requestAnimationFrame(animate);
     }
     animate();
 }
 
 function laserEffect(){
-    let angle=0;
     function animate(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
         ctx.font="bold 80px Arial";
@@ -244,8 +209,7 @@ function laserEffect(){
             ctx.lineTo(canvas.width/2,canvas.height/2);
             ctx.stroke();
         }
-        angle+=0.05;
-        animateId = requestAnimationFrame(animate);
+        animateId=requestAnimationFrame(animate);
     }
     animate();
 }
@@ -265,7 +229,7 @@ function magicEffect(){
             ctx.font="bold 60px Arial";
             ctx.fillText(l.char,l.x,l.y);
         });
-        animateId = requestAnimationFrame(animate);
+        animateId=requestAnimationFrame(animate);
     }
     animate();
 }
@@ -278,10 +242,11 @@ function musicEffect(){
         ctx.fillStyle=`hsl(${t%360},100%,50%)`;
         ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2);
         t+=1;
-        animateId = requestAnimationFrame(animate);
+        animateId=requestAnimationFrame(animate);
     }
     animate();
 }
 </script>
+
 </body>
 </html>
