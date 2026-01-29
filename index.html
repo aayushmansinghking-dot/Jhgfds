@@ -3,250 +3,347 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aayushman Singh - Flex Dashboard</title>
+<title>Aayushman Singh Game Hub</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
-  body, html{width:100%;height:100%;font-family:Arial,sans-serif;overflow:hidden;background:#111;color:#fff;}
-  .page{
-    width:100%;height:100%;position:absolute;top:0;left:0;
-    display:flex;flex-direction:column;justify-content:center;align-items:center;
-    transition: opacity 0.3s ease;
-  }
+  body,html{width:100%;height:100%;overflow:hidden;background:#111;font-family:Arial,sans-serif;color:#fff;}
+  .page{width:100%;height:100%;position:absolute;top:0;left:0;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.3s;}
   .hidden{opacity:0;pointer-events:none;}
-  h1{margin-bottom:50px;text-align:center;}
+  h1{margin-bottom:50px;text-align:center;font-size:3em;}
   .buttons{display:flex;flex-wrap:wrap;gap:15px;justify-content:center;z-index:10;}
-  button{
-    padding:15px 25px;font-size:18px;border:none;border-radius:8px;cursor:pointer;
-    background: linear-gradient(45deg,#00FFFF,#FF00FF,#FFFF00);color:#111;font-weight:bold;
-    transition: transform 0.3s ease;
-    z-index:10;position:relative;
-  }
-  button:hover{transform: scale(1.1);}
-  #back{
-    position:absolute;top:20px;left:20px;padding:10px 15px;background:#FF4500;
-    border:none;border-radius:5px;font-weight:bold;cursor:pointer;z-index:10;
-    display:none;
-  }
-  canvas{
-    position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;
-  }
+  button{padding:20px 35px;font-size:20px;border:none;border-radius:10px;cursor:pointer;background:linear-gradient(45deg,#00FFFF,#FF00FF,#FFFF00);color:#111;font-weight:bold;transition:transform 0.3s;position:relative;z-index:10;}
+  button:hover{transform:scale(1.1);}
+  #back{position:absolute;top:20px;left:20px;padding:12px 18px;background:#FF4500;border:none;border-radius:8px;font-weight:bold;cursor:pointer;z-index:10;display:none;}
+  canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;}
+  #info{text-align:center;color:#FFD700;font-size:20px;position:absolute;bottom:20px;width:100%;z-index:10;}
 </style>
 </head>
 <body>
 
 <div id="menu" class="page">
-  <h1>Choose Your Flex Effect</h1>
+  <h1>Aayushman Singh Game Hub</h1>
   <div class="buttons">
-    <button data-effect="holo">Hologram Name</button>
-    <button data-effect="fire">Fire & Smoke Name</button>
-    <button data-effect="water">Water Ripple Name</button>
-    <button data-effect="cyber">Cyberpunk Neon Name</button>
-    <button data-effect="galaxy">Galaxy / Space Name</button>
-    <button data-effect="laser">Laser Beam Name</button>
-    <button data-effect="magic">Interactive Magic Name</button>
-    <button data-effect="music">Music-Responsive Name</button>
+    <button data-game="puzzle">Name Puzzle</button>
+    <button data-game="typing">Typing Challenge</button>
+    <button data-game="catch">Letter Catch</button>
+    <button data-game="shooter">Name Shooter</button>
+    <button data-game="memory">Memory Game</button>
+    <button data-game="obstacle">Obstacle Run</button>
   </div>
 </div>
 
 <button id="back">← Back</button>
 <canvas id="canvas"></canvas>
+<div id="info"></div>
 
 <script>
 const menu = document.getElementById('menu');
 const backBtn = document.getElementById('back');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+const info = document.getElementById('info');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let currentEffect = null;
+let currentGame = null;
 const name = "Aayushman Singh";
 let animateId;
 
-// BUTTON CLICK HANDLER
-document.querySelectorAll('button[data-effect]').forEach(btn=>{
+// === MENU BUTTONS ===
+document.querySelectorAll('button[data-game]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-        currentEffect = btn.getAttribute('data-effect');
+        currentGame = btn.getAttribute('data-game');
         menu.classList.add('hidden');
-        backBtn.style.display = 'block';
-        startEffect(currentEffect);
+        backBtn.style.display='block';
+        info.textContent = '';
+        startGame(currentGame);
     });
 });
 
-// BACK BUTTON
+// === BACK BUTTON ===
 backBtn.addEventListener('click', ()=>{
-    currentEffect = null;
+    currentGame = null;
     menu.classList.remove('hidden');
-    backBtn.style.display = 'none';
+    backBtn.style.display='none';
     cancelAnimationFrame(animateId);
     ctx.clearRect(0,0,canvas.width,canvas.height);
+    info.textContent = '';
 });
 
-// EFFECTS
-function startEffect(effect){
+// === START GAME FUNCTION ===
+function startGame(game){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     cancelAnimationFrame(animateId);
-    if(effect==="holo") hologramEffect();
-    else if(effect==="fire") fireEffect();
-    else if(effect==="water") waterEffect();
-    else if(effect==="cyber") cyberEffect();
-    else if(effect==="galaxy") galaxyEffect();
-    else if(effect==="laser") laserEffect();
-    else if(effect==="magic") magicEffect();
-    else if(effect==="music") musicEffect();
+    if(game==="puzzle") puzzleGame();
+    else if(game==="typing") typingGame();
+    else if(game==="catch") catchGame();
+    else if(game==="shooter") shooterGame();
+    else if(game==="memory") memoryGame();
+    else if(game==="obstacle") obstacleGame();
 }
 
-// SIMPLE DEMO EFFECTS
-function hologramEffect(){
-    let angle=0;
-    function animate(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.save();
-        ctx.translate(canvas.width/2, canvas.height/2);
-        ctx.rotate(angle);
-        ctx.font="bold 80px Arial";
-        ctx.fillStyle="cyan";
-        ctx.shadowColor="cyan";
-        ctx.shadowBlur=20;
-        ctx.fillText(name,-ctx.measureText(name).width/2,0);
-        ctx.restore();
-        angle+=0.02;
-        animateId=requestAnimationFrame(animate);
-    }
-    animate();
-}
+// === 1️⃣ NAME PUZZLE ===
+function puzzleGame(){
+    info.textContent = "Drag letters to form your name!";
+    const letters = name.split('').map((c,i)=>{
+        return {char:c,x:50+i*100,y:canvas.height/2,width:80,height:80};
+    });
 
-function fireEffect(){
-    let particles=[];
-    function animate(){
-        ctx.fillStyle="rgba(0,0,0,0.2)";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.font="bold 70px Arial";
-        ctx.fillStyle="#FF4500";
-        ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2);
-        if(Math.random()<0.3){
-            particles.push({x:canvas.width/2+Math.random()*200-100,y:canvas.height/2+10,vy:-Math.random()*4-1,size:Math.random()*3+2});
-        }
-        particles.forEach((p,i)=>{
-            ctx.fillStyle="orange";
-            ctx.beginPath();
-            ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-            ctx.fill();
-            p.y+=p.vy;
-            if(p.y<0) particles.splice(i,1);
-        });
-        animateId=requestAnimationFrame(animate);
-    }
-    animate();
-}
+    let dragging = null;
 
-function waterEffect(){
-    let time=0;
-    function animate(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.font="bold 80px Arial";
-        ctx.fillStyle="#00BFFF";
-        let y=canvas.height/2 + Math.sin(time)*20;
-        ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,y);
-        time+=0.1;
-        animateId=requestAnimationFrame(animate);
-    }
-    animate();
-}
-
-function cyberEffect(){
-    let offset=0;
-    function animate(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        for(let i=0;i<100;i++){
-            ctx.fillStyle="rgba(0,255,0,0.1)";
-            ctx.fillRect(Math.random()*canvas.width,Math.random()*canvas.height,2,2);
-        }
-        ctx.font="bold 80px Arial";
-        ctx.fillStyle="#FF00FF";
-        ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2+Math.sin(offset)*20);
-        offset+=0.05;
-        animateId=requestAnimationFrame(animate);
-    }
-    animate();
-}
-
-function galaxyEffect(){
-    let stars=[];
-    for(let i=0;i<200;i++){
-        stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,speed:Math.random()*0.5+0.2});
-    }
-    function animate(){
-        ctx.fillStyle="black";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
-        stars.forEach(s=>{
-            ctx.fillStyle="white";
-            ctx.beginPath();
-            ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-            ctx.fill();
-            s.x+=s.speed;
-            if(s.x>canvas.width)s.x=0;
-        });
-        ctx.font="bold 80px Arial";
-        ctx.fillStyle="#FFD700";
-        ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2);
-        animateId=requestAnimationFrame(animate);
-    }
-    animate();
-}
-
-function laserEffect(){
-    function animate(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.font="bold 80px Arial";
-        ctx.strokeStyle="#00FFFF";
-        ctx.lineWidth=2;
-        ctx.strokeText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2);
-        for(let i=0;i<5;i++){
-            ctx.strokeStyle=`rgba(0,255,255,${Math.random()})`;
-            ctx.beginPath();
-            ctx.moveTo(Math.random()*canvas.width,Math.random()*canvas.height);
-            ctx.lineTo(canvas.width/2,canvas.height/2);
-            ctx.stroke();
-        }
-        animateId=requestAnimationFrame(animate);
-    }
-    animate();
-}
-
-function magicEffect(){
-    let letters=[];
-    for(let i=0;i<name.length;i++){
-        letters.push({x:canvas.width/2,y:canvas.height/2,vx:(Math.random()-0.5)*6,vy:(Math.random()-0.5)*6,char:name[i],color:`hsl(${Math.random()*360},100%,50%)`});
-    }
-    function animate(){
+    function draw(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
         letters.forEach(l=>{
-            l.x+=l.vx;l.y+=l.vy;
-            if(l.x<0||l.x>canvas.width)l.vx*=-1;
-            if(l.y<0||l.y>canvas.height)l.vy*=-1;
-            ctx.fillStyle=l.color;
+            ctx.fillStyle="cyan";
+            ctx.fillRect(l.x,l.y,l.width,l.height);
+            ctx.fillStyle="black";
+            ctx.font="bold 60px Arial";
+            ctx.fillText(l.char,l.x+15,l.y+60);
+        });
+        // Check win
+        let correct = letters.every((l,i)=>l.x >= 50+i*100-10 && l.x <= 50+i*100+10);
+        if(correct){
+            info.textContent = "🎉 Puzzle Solved! Click Back to return.";
+        }
+        animateId=requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    canvas.onmousedown = e=>{
+        letters.forEach(l=>{
+            if(e.offsetX>l.x && e.offsetX<l.x+l.width && e.offsetY>l.y && e.offsetY<l.y+l.height){
+                dragging=l;
+            }
+        });
+    }
+
+    canvas.onmousemove = e=>{
+        if(dragging){
+            dragging.x = e.offsetX - dragging.width/2;
+            dragging.y = e.offsetY - dragging.height/2;
+        }
+    }
+
+    canvas.onmouseup = e=>{
+        dragging=null;
+    }
+}
+
+// === 2️⃣ TYPING CHALLENGE ===
+function typingGame(){
+    info.textContent = "Type falling letters before they hit the bottom!";
+    let letters = [];
+    let score=0;
+
+    function spawnLetter(){
+        letters.push({char:name[Math.floor(Math.random()*name.length)],x:Math.random()*canvas.width,y:0,vy:2+Math.random()*2});
+        if(currentGame==="typing") setTimeout(spawnLetter,500);
+    }
+    spawnLetter();
+
+    document.onkeydown=e=>{
+        for(let i=0;i<letters.length;i++){
+            if(e.key.toUpperCase()===letters[i].char.toUpperCase()){
+                letters.splice(i,1);
+                score++;
+                info.textContent = `Score: ${score}`;
+                break;
+            }
+        }
+    }
+
+    function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        letters.forEach(l=>{
+            ctx.fillStyle="lime";
+            ctx.font="bold 70px Arial";
+            ctx.fillText(l.char,l.x,l.y);
+            l.y+=l.vy;
+        });
+        letters=letters.filter(l=>l.y<canvas.height);
+        animateId=requestAnimationFrame(draw);
+    }
+    draw();
+}
+
+// === 3️⃣ LETTER CATCH ===
+function catchGame(){
+    info.textContent="Catch letters in order!";
+    const basket = {x:canvas.width/2,y:canvas.height-50,width:150,height:20};
+    let letters=[];
+    let caught=0;
+
+    function spawnLetter(){
+        letters.push({char:name[caught%name.length],x:Math.random()*(canvas.width-50),y:0,vy:3+Math.random()*2});
+        if(currentGame==="catch") setTimeout(spawnLetter,1000);
+    }
+    spawnLetter();
+
+    document.onmousemove=e=>{
+        basket.x=e.offsetX-basket.width/2;
+    }
+
+    function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle="white";
+        ctx.fillRect(basket.x,basket.y,basket.width,basket.height);
+        letters.forEach((l,i)=>{
+            ctx.fillStyle="orange";
+            ctx.font="bold 60px Arial";
+            ctx.fillText(l.char,l.x,l.y);
+            l.y+=l.vy;
+            if(l.y>=basket.y && l.x>basket.x && l.x<basket.x+basket.width){
+                caught++;
+                letters.splice(i,1);
+                if(caught>=name.length){
+                    info.textContent="🎉 You caught all letters! Click Back.";
+                }
+            }
+        });
+        animateId=requestAnimationFrame(draw);
+    }
+    draw();
+}
+
+// === 4️⃣ NAME SHOOTER ===
+function shooterGame(){
+    info.textContent="Click letters to shoot them!";
+    let letters=[];
+    let destroyed=0;
+
+    function spawnLetters(){
+        letters=[];
+        for(let i=0;i<name.length;i++){
+            letters.push({char:name[i],x:Math.random()*(canvas.width-50),y:Math.random()*(canvas.height-300)+50});
+        }
+    }
+    spawnLetters();
+
+    canvas.onclick=e=>{
+        letters.forEach((l,i)=>{
+            if(e.offsetX>l.x && e.offsetX<l.x+50 && e.offsetY>l.y-50 && e.offsetY<l.y){
+                letters.splice(i,1);
+                destroyed++;
+                if(destroyed>=name.length){
+                    info.textContent="🎉 All letters destroyed! Click Back.";
+                }
+            }
+        });
+    }
+
+    function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        letters.forEach(l=>{
+            ctx.fillStyle="red";
+            ctx.font="bold 70px Arial";
+            ctx.fillText(l.char,l.x,l.y);
+        });
+        animateId=requestAnimationFrame(draw);
+    }
+    draw();
+}
+
+// === 5️⃣ MEMORY GAME ===
+function memoryGame(){
+    info.textContent="Match the letters!";
+    let cards=[];
+    name.split('').forEach(c=>{
+        cards.push({char:c,flipped:false});
+        cards.push({char:c,flipped:false});
+    });
+    cards.sort(()=>Math.random()-0.5);
+    const rows = 4;
+    const cols = Math.ceil(cards.length/rows);
+    const cardW = canvas.width/cols-20;
+    const cardH = canvas.height/rows-20;
+    let first=null;
+
+    canvas.onclick=e=>{
+        cards.forEach((card,i)=>{
+            let col = i%cols;
+            let row = Math.floor(i/cols);
+            let x = col*(cardW+10)+10;
+            let y = row*(cardH+10)+10;
+            if(e.offsetX>x && e.offsetX<x+cardW && e.offsetY>y && e.offsetY<y+cardH && !card.flipped){
+                card.flipped=true;
+                if(first===null) first=i;
+                else{
+                    if(cards[first].char===card.char){
+                        first=null;
+                        if(cards.every(c=>c.flipped)) info.textContent="🎉 Memory Completed! Click Back.";
+                    }else{
+                        setTimeout(()=>{cards[first].flipped=false;card.flipped=false;first=null;},500);
+                    }
+                }
+            }
+        });
+    }
+
+    function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        cards.forEach((card,i)=>{
+            let col = i%cols;
+            let row = Math.floor(i/cols);
+            let x = col*(cardW+10)+10;
+            let y = row*(cardH+10)+10;
+            ctx.fillStyle=card.flipped?"cyan":"#555";
+            ctx.fillRect(x,y,cardW,cardH);
+            if(card.flipped){
+                ctx.fillStyle="black";
+                ctx.font=`bold ${cardH/2}px Arial`;
+                ctx.fillText(card.char,x+cardW/4,y+cardH/1.5);
+            }
+        });
+        animateId=requestAnimationFrame(draw);
+    }
+    draw();
+}
+
+// === 6️⃣ OBSTACLE RUN ===
+function obstacleGame(){
+    info.textContent="Avoid obstacles!";
+    const letters = name.split('').map((c,i)=>{
+        return {char:c,x:50+i*100,y:canvas.height/2,vx:0,vy:0};
+    });
+    const obstacles = [];
+    let score=0;
+
+    function spawnObstacle(){
+        obstacles.push({x:canvas.width,y:Math.random()*canvas.height/2,width:50,height:50});
+        if(currentGame==="obstacle") setTimeout(spawnObstacle,1500);
+    }
+    spawnObstacle();
+
+    document.onkeydown=e=>{
+        if(e.key==="ArrowUp") letters.forEach(l=>l.y-=20);
+        if(e.key==="ArrowDown") letters.forEach(l=>l.y+=20);
+    }
+
+    function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        letters.forEach(l=>{
+            ctx.fillStyle="lime";
             ctx.font="bold 60px Arial";
             ctx.fillText(l.char,l.x,l.y);
         });
-        animateId=requestAnimationFrame(animate);
+        obstacles.forEach((o,i)=>{
+            ctx.fillStyle="red";
+            ctx.fillRect(o.x,o.y,o.width,o.height);
+            o.x-=5;
+            letters.forEach(l=>{
+                if(l.x<o.x+o.width && l.x+50>o.x && l.y<o.y+o.height && l.y+50>o.y){
+                    info.textContent="💥 Hit! Click Back to retry.";
+                    cancelAnimationFrame(animateId);
+                }
+            });
+            if(o.x+o.width<0) obstacles.splice(i,1);
+        });
+        animateId=requestAnimationFrame(draw);
     }
-    animate();
+    draw();
 }
 
-function musicEffect(){
-    let t=0;
-    function animate(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.font="bold 80px Arial";
-        ctx.fillStyle=`hsl(${t%360},100%,50%)`;
-        ctx.fillText(name,canvas.width/2-ctx.measureText(name).width/2,canvas.height/2);
-        t+=1;
-        animateId=requestAnimationFrame(animate);
-    }
-    animate();
-}
 </script>
-
 </body>
 </html>
