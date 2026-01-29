@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ayushman Singh – Cinematic Intro</title>
+<title>Ayushman Singh – Movie Intro</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 html,body{
@@ -14,52 +14,73 @@ html,body{
 }
 
 /* CINEMA BARS */
-.bar{
+.cinema-bar{
     position:fixed;
     width:100%;
     height:12%;
     background:black;
-    z-index:5;
+    z-index:10;
 }
-.bar.top{top:0;}
-.bar.bottom{bottom:0;}
+.top{top:0;}
+.bottom{bottom:0;}
 
-/* CAMERA CONTAINER */
+/* SCENE */
 .scene{
     position:absolute;
     top:50%;
     left:50%;
     transform-style:preserve-3d;
-    animation: cameraMove 7s ease forwards;
+    perspective:1200px;
 }
 
-/* TEXT */
+/* TITLE */
 .title{
+    position:absolute;
+    transform-style:preserve-3d;
     font-family: Georgia, serif;
-    font-size:64px;
-    letter-spacing:10px;
-    color:#d4af37;
+    font-size:70px;
+    letter-spacing:12px;
+    color:#d6b36a;
     text-shadow:
-        0 0 10px #ffae00,
+        0 0 10px #ffb300,
         0 0 40px #ff8c00,
-        0 0 100px rgba(255,140,0,0.8);
+        0 0 120px rgba(255,140,0,0.9);
     transform:
         translate(-50%,-50%)
-        scale(6)
-        rotateX(15deg);
-    opacity:0;
-    animation: reveal 6s ease forwards;
+        translateZ(-1200px)
+        scale(8);
+    animation: cameraFly 8s ease-out forwards;
 }
 
-/* FAKE DEPTH SHADOW */
-.title::after{
-    content:attr(data-text);
+/* STONE DEPTH LAYERS */
+.layer{
     position:absolute;
-    left:6px;
-    top:6px;
+    transform:translate(-50%,-50%);
     color:#5a3b00;
-    z-index:-1;
-    filter:blur(2px);
+    opacity:0.9;
+}
+
+/* CAMERA ANIMATION */
+@keyframes cameraFly{
+    0%{
+        transform:
+            translate(-50%,-50%)
+            translateZ(-1400px)
+            scale(10);
+        filter:blur(25px);
+        opacity:0;
+    }
+    40%{
+        opacity:1;
+    }
+    100%{
+        transform:
+            translate(-50%,-50%)
+            translateZ(0px)
+            scale(1);
+        filter:blur(0);
+        opacity:1;
+    }
 }
 
 /* LIGHT SWEEP */
@@ -70,49 +91,25 @@ html,body{
     background:linear-gradient(
         120deg,
         transparent 45%,
-        rgba(255,215,0,0.15),
+        rgba(255,215,0,0.18),
         transparent 55%
     );
     animation:sweep 6s linear infinite;
 }
 
-/* ANIMATIONS */
-@keyframes cameraMove{
-    from{
-        transform:translate(-50%,-50%) scale(0.1);
-    }
-    to{
-        transform:translate(-50%,-50%) scale(1);
-    }
-}
-
-@keyframes reveal{
-    0%{
-        opacity:0;
-        filter:blur(20px);
-    }
-    40%{
-        opacity:1;
-    }
-    100%{
-        opacity:1;
-        filter:blur(0);
-    }
-}
-
 @keyframes sweep{
-    from{transform:translateX(-50%) rotate(10deg);}
-    to{transform:translateX(50%) rotate(10deg);}
+    from{transform:translateX(-60%) rotate(15deg);}
+    to{transform:translateX(60%) rotate(15deg);}
 }
 
-/* DUST */
+/* DUST PARTICLES */
 .particle{
     position:absolute;
     width:3px;
     height:3px;
     background:gold;
     border-radius:50%;
-    opacity:0.6;
+    opacity:0.7;
     animation:float 6s linear infinite;
 }
 
@@ -125,18 +122,23 @@ html,body{
 
 <body>
 
-<div class="bar top"></div>
-<div class="bar bottom"></div>
+<div class="cinema-bar top"></div>
+<div class="cinema-bar bottom"></div>
 <div class="light"></div>
 
 <div class="scene">
-    <div class="title" data-text="AYUSHMAN SINGH">
-        AYUSHMAN&nbsp;SINGH
-    </div>
+    <!-- STONE DEPTH -->
+    <div class="layer" style="top:4px;left:4px;">AYUSHMAN&nbsp;SINGH</div>
+    <div class="layer" style="top:8px;left:8px;">AYUSHMAN&nbsp;SINGH</div>
+    <div class="layer" style="top:12px;left:12px;">AYUSHMAN&nbsp;SINGH</div>
+
+    <!-- MAIN TITLE -->
+    <div class="title">AYUSHMAN&nbsp;SINGH</div>
 </div>
 
 <script>
-for(let i=0;i<50;i++){
+/* PARTICLES */
+for(let i=0;i<70;i++){
     let p=document.createElement("div");
     p.className="particle";
     p.style.left=Math.random()*100+"vw";
