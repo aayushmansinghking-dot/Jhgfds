@@ -2,178 +2,110 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ayushman Singh – Intro</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aayushman Singh - Particle Explosion</title>
 <style>
-html,body{
-    margin:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:black;
-    font-family: Georgia, serif;
-}
-
-/* CINEMA BARS */
-.bar{
-    position:fixed;
-    width:100%;
-    height:12%;
-    background:black;
-    z-index:10;
-}
-.top{top:0;}
-.bottom{bottom:0;}
-
-/* LIGHT SWEEP */
-.light{
-    position:absolute;
-    width:200%;
-    height:200%;
-    background:linear-gradient(120deg,transparent 45%, rgba(255,215,0,0.18), transparent 55%);
-    animation:sweep 6s linear infinite;
-}
-
-@keyframes sweep{
-    from{transform:translateX(-60%) rotate(15deg);}
-    to{transform:translateX(60%) rotate(15deg);}
-}
-
-/* INTRO SCENE */
-#intro{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%) scale(1);
-    text-align:center;
-    color:#ffd700;
-}
-
-/* NAME TEXT */
-#name{
-    font-size:80px;
-    letter-spacing:10px;
-    text-shadow:
-        0 0 10px #ffb300,
-        0 0 40px #ff8c00,
-        0 0 120px rgba(255,140,0,0.9);
-    opacity:0;
-    animation:fadeIn 3s ease forwards;
-}
-
-/* SHRINK ANIMATION */
-.shrink{
-    animation:shrinkName 3s forwards;
-}
-
-@keyframes fadeIn{
-    0%{opacity:0; transform:translateY(50px);}
-    100%{opacity:1; transform:translateY(0);}
-}
-
-@keyframes shrinkName{
-    0%{
-        transform:translate(-50%,-50%) scale(1);
-        opacity:1;
+    body {
+        margin: 0;
+        height: 100vh;
+        background: radial-gradient(circle at center, #0f2027, #203a43, #2c5364);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        font-family: 'Arial', sans-serif;
+        color: white;
     }
-    100%{
-        transform:translate(-50%,-50%) scale(0.1);
-        opacity:0;
+    #canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
     }
-}
-
-/* DETAILS PAGE */
-#details{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
-    color:white;
-    text-align:center;
-    display:none;
-    max-width:90%;
-}
-
-/* DETAIL HEADLINE */
-#details h1{
-    font-size:32px;
-    color:#ffd700;
-    margin-bottom:20px;
-}
-
-/* DETAIL TEXT */
-#details p{
-    font-size:18px;
-    line-height:1.5;
-    color:#fff;
-}
-
-/* PARTICLES */
-.particle{
-    position:absolute;
-    width:3px;
-    height:3px;
-    background:gold;
-    border-radius:50%;
-    opacity:0.7;
-    animation:float 6s linear infinite;
-}
-
-@keyframes float{
-    from{transform:translateY(0);opacity:1;}
-    to{transform:translateY(-300px);opacity:0;}
-}
+    #name {
+        font-size: 60px;
+        font-weight: bold;
+        position: absolute;
+        color: #FFD700;
+        cursor: pointer;
+        user-select: none;
+    }
 </style>
 </head>
 <body>
 
-<div class="bar top"></div>
-<div class="bar bottom"></div>
-<div class="light"></div>
-
-<!-- INTRO -->
-<div id="intro">
-    <div id="name">AYUSHMAN SINGH</div>
-</div>
-
-<!-- DETAILS PAGE -->
-<div id="details">
-    <h1>About Me</h1>
-    <p>
-        Hello! I am Ayushman Singh.<br>
-        I am a passionate learner and love coding.<br>
-        You can replace this text with your own details.<br>
-        Add hobbies, achievements, or any info you like.
-    </p>
-</div>
+<div id="name">Aayushman Singh</div>
+<canvas id="canvas"></canvas>
 
 <script>
-/* PARTICLES */
-for(let i=0;i<50;i++){
-    let p=document.createElement("div");
-    p.className="particle";
-    p.style.left=Math.random()*100+"vw";
-    p.style.bottom=Math.random()*100+"vh";
-    p.style.animationDelay=Math.random()*5+"s";
-    document.body.appendChild(p);
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const nameEl = document.getElementById('name');
+let particles = [];
+const colors = ['#FFD700', '#FF4500', '#1E90FF', '#ADFF2F', '#FF69B4', '#00FFFF'];
+
+class Particle {
+    constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.size = Math.random() * 3 + 2;
+        this.speedX = (Math.random() - 0.5) * 6;
+        this.speedY = (Math.random() - 0.5) * 6;
+        this.alpha = 1;
+    }
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.alpha -= 0.02;
+    }
+    draw() {
+        ctx.fillStyle = `rgba(${hexToRgb(this.color)},${this.alpha})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
 }
 
-/* SHRINK NAME AND TRANSITION TO DETAILS */
-const nameEl = document.getElementById("name");
-const intro = document.getElementById("intro");
-const details = document.getElementById("details");
+function hexToRgb(hex) {
+    hex = hex.replace('#','');
+    let bigint = parseInt(hex,16);
+    let r = (bigint >> 16) & 255;
+    let g = (bigint >> 8) & 255;
+    let b = bigint & 255;
+    return `${r},${g},${b}`;
+}
 
-// Wait 4 seconds then shrink the name
-setTimeout(()=>{
-    nameEl.classList.add("shrink");
-}, 4000);
+function createParticles() {
+    const rect = nameEl.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    particles = [];
+    for(let i=0; i<150; i++){
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        particles.push(new Particle(x, y, color));
+    }
+}
 
-// Wait 7 seconds then hide intro and show details
-setTimeout(()=>{
-    intro.style.display="none";
-    details.style.display="block";
-}, 7000);
+function animate() {
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+    particles.forEach((p, index) => {
+        if(p.alpha <= 0) particles.splice(index, 1);
+        else {
+            p.update();
+            p.draw();
+        }
+    });
+    requestAnimationFrame(animate);
+}
+
+nameEl.addEventListener('click', () => {
+    createParticles();
+});
+
+animate();
 </script>
-
 </body>
 </html>
