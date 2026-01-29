@@ -3,106 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aayushman Singh - Particle Explosion</title>
+<title>Aayushman Singh - Floating Letters</title>
 <style>
     body {
         margin: 0;
         height: 100vh;
-        background: radial-gradient(circle at center, #0f2027, #203a43, #2c5364);
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
         display: flex;
         justify-content: center;
         align-items: center;
         overflow: hidden;
         font-family: 'Arial', sans-serif;
-        color: white;
     }
-    #canvas {
+    .letter {
         position: absolute;
-        top: 0;
-        left: 0;
-    }
-    #name {
         font-size: 60px;
         font-weight: bold;
-        position: absolute;
-        color: #FFD700;
+        color: #00FFFF;
+        text-shadow: 0 0 10px #00FFFF, 0 0 20px #FF00FF, 0 0 30px #FFFF00;
         cursor: pointer;
         user-select: none;
+        transition: transform 0.5s ease, color 0.5s ease;
     }
 </style>
 </head>
 <body>
 
-<div id="name">Aayushman Singh</div>
-<canvas id="canvas"></canvas>
-
 <script>
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const name = "Aayushman Singh";
+const letters = [];
+const colors = ["#00FFFF", "#FF00FF", "#FFFF00", "#FF4500", "#ADFF2F"];
+const bodyWidth = window.innerWidth;
+const bodyHeight = window.innerHeight;
 
-const nameEl = document.getElementById('name');
-let particles = [];
-const colors = ['#FFD700', '#FF4500', '#1E90FF', '#ADFF2F', '#FF69B4', '#00FFFF'];
-
-class Particle {
-    constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.size = Math.random() * 3 + 2;
-        this.speedX = (Math.random() - 0.5) * 6;
-        this.speedY = (Math.random() - 0.5) * 6;
-        this.alpha = 1;
-    }
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.alpha -= 0.02;
-    }
-    draw() {
-        ctx.fillStyle = `rgba(${hexToRgb(this.color)},${this.alpha})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
+// Create letters
+for(let i=0; i<name.length; i++){
+    const span = document.createElement("span");
+    span.className = "letter";
+    span.textContent = name[i];
+    document.body.appendChild(span);
+    const x = Math.random() * bodyWidth;
+    const y = Math.random() * bodyHeight;
+    span.style.left = x + "px";
+    span.style.top = y + "px";
+    letters.push({
+        el: span,
+        x: x,
+        y: y,
+        vx: (Math.random()-0.5)*4,
+        vy: (Math.random()-0.5)*4,
+        color: colors[Math.floor(Math.random()*colors.length)]
+    });
 }
 
-function hexToRgb(hex) {
-    hex = hex.replace('#','');
-    let bigint = parseInt(hex,16);
-    let r = (bigint >> 16) & 255;
-    let g = (bigint >> 8) & 255;
-    let b = bigint & 255;
-    return `${r},${g},${b}`;
-}
+// Animate letters floating
+function animate(){
+    letters.forEach(l=>{
+        l.x += l.vx;
+        l.y += l.vy;
 
-function createParticles() {
-    const rect = nameEl.getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
-    particles = [];
-    for(let i=0; i<150; i++){
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        particles.push(new Particle(x, y, color));
-    }
-}
+        // Bounce from edges
+        if(l.x < 0 || l.x > bodyWidth - 30) l.vx *= -1;
+        if(l.y < 0 || l.y > bodyHeight - 30) l.vy *= -1;
 
-function animate() {
-    ctx.clearRect(0,0,canvas.width, canvas.height);
-    particles.forEach((p, index) => {
-        if(p.alpha <= 0) particles.splice(index, 1);
-        else {
-            p.update();
-            p.draw();
-        }
+        l.el.style.left = l.x + "px";
+        l.el.style.top = l.y + "px";
     });
     requestAnimationFrame(animate);
 }
 
-nameEl.addEventListener('click', () => {
-    createParticles();
+// Click letters to explode
+letters.forEach(l=>{
+    l.el.addEventListener('click', ()=>{
+        for(let i=0;i<letters.length;i++){
+            letters[i].vx = (Math.random()-0.5)*15;
+            letters[i].vy = (Math.random()-0.5)*15;
+            letters[i].el.style.color = colors[Math.floor(Math.random()*colors.length)];
+        }
+        // Return to slow float after 0.7 sec
+        setTimeout(()=>{
+            letters.forEach(ll=>{
+                ll.vx = (Math.random()-0.5)*4;
+                ll.vy = (Math.random()-0.5)*4;
+            });
+        },700);
+    });
 });
 
 animate();
