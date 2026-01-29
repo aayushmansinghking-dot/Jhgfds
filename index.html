@@ -2,19 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ayushman Singh – Movie Intro</title>
+<title>Ayushman Singh – Intro</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 html,body{
     margin:0;
     width:100%;
     height:100%;
-    background:black;
     overflow:hidden;
+    background:black;
+    font-family: Georgia, serif;
 }
 
 /* CINEMA BARS */
-.cinema-bar{
+.bar{
     position:fixed;
     width:100%;
     height:12%;
@@ -24,76 +25,12 @@ html,body{
 .top{top:0;}
 .bottom{bottom:0;}
 
-/* SCENE */
-.scene{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform-style:preserve-3d;
-    perspective:1200px;
-}
-
-/* TITLE */
-.title{
-    position:absolute;
-    transform-style:preserve-3d;
-    font-family: Georgia, serif;
-    font-size:70px;
-    letter-spacing:12px;
-    color:#d6b36a;
-    text-shadow:
-        0 0 10px #ffb300,
-        0 0 40px #ff8c00,
-        0 0 120px rgba(255,140,0,0.9);
-    transform:
-        translate(-50%,-50%)
-        translateZ(-1200px)
-        scale(8);
-    animation: cameraFly 8s ease-out forwards;
-}
-
-/* STONE DEPTH LAYERS */
-.layer{
-    position:absolute;
-    transform:translate(-50%,-50%);
-    color:#5a3b00;
-    opacity:0.9;
-}
-
-/* CAMERA ANIMATION */
-@keyframes cameraFly{
-    0%{
-        transform:
-            translate(-50%,-50%)
-            translateZ(-1400px)
-            scale(10);
-        filter:blur(25px);
-        opacity:0;
-    }
-    40%{
-        opacity:1;
-    }
-    100%{
-        transform:
-            translate(-50%,-50%)
-            translateZ(0px)
-            scale(1);
-        filter:blur(0);
-        opacity:1;
-    }
-}
-
 /* LIGHT SWEEP */
 .light{
     position:absolute;
     width:200%;
     height:200%;
-    background:linear-gradient(
-        120deg,
-        transparent 45%,
-        rgba(255,215,0,0.18),
-        transparent 55%
-    );
+    background:linear-gradient(120deg,transparent 45%, rgba(255,215,0,0.18), transparent 55%);
     animation:sweep 6s linear infinite;
 }
 
@@ -102,7 +39,76 @@ html,body{
     to{transform:translateX(60%) rotate(15deg);}
 }
 
-/* DUST PARTICLES */
+/* INTRO SCENE */
+#intro{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%) scale(1);
+    text-align:center;
+    color:#ffd700;
+}
+
+/* NAME TEXT */
+#name{
+    font-size:80px;
+    letter-spacing:10px;
+    text-shadow:
+        0 0 10px #ffb300,
+        0 0 40px #ff8c00,
+        0 0 120px rgba(255,140,0,0.9);
+    opacity:0;
+    animation:fadeIn 3s ease forwards;
+}
+
+/* SHRINK ANIMATION */
+.shrink{
+    animation:shrinkName 3s forwards;
+}
+
+@keyframes fadeIn{
+    0%{opacity:0; transform:translateY(50px);}
+    100%{opacity:1; transform:translateY(0);}
+}
+
+@keyframes shrinkName{
+    0%{
+        transform:translate(-50%,-50%) scale(1);
+        opacity:1;
+    }
+    100%{
+        transform:translate(-50%,-50%) scale(0.1);
+        opacity:0;
+    }
+}
+
+/* DETAILS PAGE */
+#details{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    color:white;
+    text-align:center;
+    display:none;
+    max-width:90%;
+}
+
+/* DETAIL HEADLINE */
+#details h1{
+    font-size:32px;
+    color:#ffd700;
+    margin-bottom:20px;
+}
+
+/* DETAIL TEXT */
+#details p{
+    font-size:18px;
+    line-height:1.5;
+    color:#fff;
+}
+
+/* PARTICLES */
 .particle{
     position:absolute;
     width:3px;
@@ -119,26 +125,31 @@ html,body{
 }
 </style>
 </head>
-
 <body>
 
-<div class="cinema-bar top"></div>
-<div class="cinema-bar bottom"></div>
+<div class="bar top"></div>
+<div class="bar bottom"></div>
 <div class="light"></div>
 
-<div class="scene">
-    <!-- STONE DEPTH -->
-    <div class="layer" style="top:4px;left:4px;">AYUSHMAN&nbsp;SINGH</div>
-    <div class="layer" style="top:8px;left:8px;">AYUSHMAN&nbsp;SINGH</div>
-    <div class="layer" style="top:12px;left:12px;">AYUSHMAN&nbsp;SINGH</div>
+<!-- INTRO -->
+<div id="intro">
+    <div id="name">AYUSHMAN SINGH</div>
+</div>
 
-    <!-- MAIN TITLE -->
-    <div class="title">AYUSHMAN&nbsp;SINGH</div>
+<!-- DETAILS PAGE -->
+<div id="details">
+    <h1>About Me</h1>
+    <p>
+        Hello! I am Ayushman Singh.<br>
+        I am a passionate learner and love coding.<br>
+        You can replace this text with your own details.<br>
+        Add hobbies, achievements, or any info you like.
+    </p>
 </div>
 
 <script>
 /* PARTICLES */
-for(let i=0;i<70;i++){
+for(let i=0;i<50;i++){
     let p=document.createElement("div");
     p.className="particle";
     p.style.left=Math.random()*100+"vw";
@@ -146,6 +157,22 @@ for(let i=0;i<70;i++){
     p.style.animationDelay=Math.random()*5+"s";
     document.body.appendChild(p);
 }
+
+/* SHRINK NAME AND TRANSITION TO DETAILS */
+const nameEl = document.getElementById("name");
+const intro = document.getElementById("intro");
+const details = document.getElementById("details");
+
+// Wait 4 seconds then shrink the name
+setTimeout(()=>{
+    nameEl.classList.add("shrink");
+}, 4000);
+
+// Wait 7 seconds then hide intro and show details
+setTimeout(()=>{
+    intro.style.display="none";
+    details.style.display="block";
+}, 7000);
 </script>
 
 </body>
