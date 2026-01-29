@@ -2,157 +2,147 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ayushman Singh – Cinematic Intro</title>
+<title>Ayushman Singh – Cinematic 3D Intro</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-/* RESET */
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: 'Georgia', serif;
-}
-
-/* BACKGROUND */
-body{
-    height:100vh;
-    background: radial-gradient(circle at center, #120000, #000000);
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-}
-
-/* CINEMATIC LIGHT RAYS */
-body::before{
-    content:"";
-    position:absolute;
-    width:200%;
-    height:200%;
-    background:
-        repeating-linear-gradient(
-            45deg,
-            rgba(255,215,0,0.05) 0px,
-            rgba(255,215,0,0.05) 2px,
-            transparent 2px,
-            transparent 8px
-        );
-    animation: lightMove 20s linear infinite;
-}
-
-@keyframes lightMove{
-    from{ transform:translate(-10%,-10%); }
-    to{ transform:translate(10%,10%); }
-}
-
-/* CONTAINER */
-.intro{
-    position:relative;
-    text-align:center;
-    z-index:2;
-}
-
-/* NAME TEXT */
-.name{
-    font-size:5rem;
-    letter-spacing:0.4rem;
-    opacity:0;
-    transform:scale(0.8);
-    color:#ffd700;
-    text-shadow:
-        0 0 10px #ffae00,
-        0 0 30px #ff8c00,
-        0 0 60px rgba(255,140,0,0.8);
-    animation: nameReveal 6s ease forwards;
-}
-
-/* SUBTEXT (MOVIE STYLE) */
-.tagline{
-    margin-top:20px;
-    font-size:1.2rem;
-    letter-spacing:0.3rem;
-    opacity:0;
-    color:#f5deb3;
-    animation: taglineFade 3s ease forwards;
-    animation-delay:5s;
-}
-
-/* ANIMATIONS */
-@keyframes nameReveal{
-    0%{
-        opacity:0;
-        transform:scale(0.6);
-        letter-spacing:1.5rem;
-        filter:blur(10px);
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: radial-gradient(circle at center, #050505, #000);
     }
-    40%{
-        opacity:1;
-        filter:blur(2px);
+    canvas {
+        display: block;
     }
-    100%{
-        opacity:1;
-        transform:scale(1);
-        letter-spacing:0.4rem;
-        filter:blur(0);
-    }
-}
-
-@keyframes taglineFade{
-    from{
-        opacity:0;
-        transform:translateY(20px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-/* SPARKLES */
-.sparkle{
-    position:absolute;
-    width:4px;
-    height:4px;
-    background:gold;
-    border-radius:50%;
-    animation: sparkleMove 4s linear infinite;
-    opacity:0.8;
-}
-
-@keyframes sparkleMove{
-    from{
-        transform:translateY(0) scale(1);
-        opacity:1;
-    }
-    to{
-        transform:translateY(-200px) scale(0);
-        opacity:0;
-    }
-}
 </style>
 </head>
-
 <body>
 
-<div class="intro">
-    <div class="name">AYUSHMAN&nbsp;SINGH</div>
-    <div class="tagline">PRESENTS</div>
-</div>
+<!-- THREE.JS -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/FontLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/geometries/TextGeometry.js"></script>
 
-<!-- SPARKLES -->
 <script>
-for(let i=0;i<40;i++){
-    let s=document.createElement("div");
-    s.className="sparkle";
-    s.style.left=Math.random()*100+"vw";
-    s.style.bottom=Math.random()*20+"vh";
-    s.style.animationDelay=Math.random()*4+"s";
-    s.style.animationDuration=3+Math.random()*3+"s";
-    document.body.appendChild(s);
+/* SCENE */
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x000000, 8, 30);
+
+/* CAMERA */
+const camera = new THREE.PerspectiveCamera(
+    45,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    100
+);
+camera.position.set(0, 1.5, 18);
+
+/* RENDERER */
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.outputEncoding = THREE.sRGBEncoding;
+document.body.appendChild(renderer.domElement);
+
+/* LIGHTS */
+const ambient = new THREE.AmbientLight(0xffcc88, 0.4);
+scene.add(ambient);
+
+const keyLight = new THREE.DirectionalLight(0xffddaa, 1.2);
+keyLight.position.set(5, 10, 10);
+scene.add(keyLight);
+
+const rimLight = new THREE.PointLight(0xffaa00, 1.5, 20);
+rimLight.position.set(-5, 2, 6);
+scene.add(rimLight);
+
+/* FLOATING PARTICLES (CINEMATIC DUST) */
+const particles = new THREE.BufferGeometry();
+const count = 800;
+const pos = [];
+
+for (let i = 0; i < count; i++) {
+    pos.push(
+        (Math.random() - 0.5) * 30,
+        Math.random() * 10,
+        (Math.random() - 0.5) * 30
+    );
 }
+particles.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+const particleMat = new THREE.PointsMaterial({
+    color: 0xffcc66,
+    size: 0.05,
+    transparent: true,
+    opacity: 0.6
+});
+const particleMesh = new THREE.Points(particles, particleMat);
+scene.add(particleMesh);
+
+/* 3D TEXT */
+let textMesh;
+const loader = new THREE.FontLoader();
+loader.load(
+    "https://cdn.jsdelivr.net/npm/three@0.152.2/examples/fonts/helvetiker_bold.typeface.json",
+    font => {
+        const geo = new THREE.TextGeometry("AYUSHMAN SINGH", {
+            font: font,
+            size: 1.5,
+            height: 0.5,
+            curveSegments: 12,
+            bevelEnabled: true,
+            bevelThickness: 0.05,
+            bevelSize: 0.04,
+            bevelSegments: 5
+        });
+        geo.center();
+
+        const mat = new THREE.MeshStandardMaterial({
+            color: 0xffd27d,
+            metalness: 0.85,
+            roughness: 0.25,
+            emissive: 0x331900
+        });
+
+        textMesh = new THREE.Mesh(geo, mat);
+        textMesh.scale.set(0.2, 0.2, 0.2);
+        textMesh.position.z = -5;
+        scene.add(textMesh);
+    }
+);
+
+/* ANIMATION */
+let clock = new THREE.Clock();
+
+function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    /* Slow cinematic camera move */
+    camera.position.z = 18 - t * 1.2;
+    camera.position.y = 1.5 + Math.sin(t * 0.4) * 0.1;
+    camera.lookAt(0, 0, 0);
+
+    /* Text reveal */
+    if (textMesh && textMesh.scale.x < 1) {
+        textMesh.scale.x += 0.004;
+        textMesh.scale.y += 0.004;
+        textMesh.scale.z += 0.004;
+        textMesh.rotation.y += 0.002;
+    }
+
+    /* Particles movement */
+    particleMesh.rotation.y += 0.0008;
+
+    renderer.render(scene, camera);
+}
+animate();
+
+/* RESIZE */
+window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
 </script>
 
 </body>
-</html>
+</html>  
