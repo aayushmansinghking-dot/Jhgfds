@@ -2,221 +2,237 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Aayushman Singh | Personal Brand</title>
+<title>The Taj Mahal | Symbol of Eternal Love</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
   font-family: "Segoe UI", sans-serif;
 }
 
-/* BODY */
-body {
-  background: #050505;
-  color: white;
-  overflow-x: hidden;
+body{
+  background: linear-gradient(180deg,#0b1d2a,#000);
+  color:#fff;
+  overflow-x:hidden;
 }
 
-/* INTRO SCREEN */
-#intro {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at center, #111 0%, #000 70%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  animation: fadeOut 1.5s ease 4.5s forwards;
+/* HEADER */
+header{
+  min-height:100vh;
+  padding:80px 10%;
+  background: radial-gradient(circle at top,#123,#000);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
-#intro h1 {
-  font-size: 4rem;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  background: linear-gradient(90deg, #00ffe7, #0077ff);
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: glow 2s infinite alternate;
+header h1{
+  font-size:4rem;
+  background: linear-gradient(90deg,#ffffff,#bcdcff);
+  -webkit-background-clip:text;
+  color:transparent;
 }
 
-@keyframes glow {
-  from { text-shadow: 0 0 10px #00ffe7; }
-  to   { text-shadow: 0 0 30px #0077ff; }
+header p{
+  max-width:750px;
+  margin-top:20px;
+  font-size:1.15rem;
+  color:#d0d0d0;
 }
 
-@keyframes fadeOut {
-  to { opacity: 0; visibility: hidden; }
+/* NAV INFO */
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+  margin-top:50px;
+}
+
+.info-box{
+  background:rgba(255,255,255,0.05);
+  padding:25px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,0.1);
+  transition:.4s;
+}
+
+.info-box:hover{
+  transform:translateY(-8px);
+  box-shadow:0 0 30px rgba(255,255,255,0.15);
+}
+
+.info-box h3{
+  margin-bottom:10px;
+  color:#9fdcff;
 }
 
 /* SECTIONS */
-section {
-  min-height: 100vh;
-  padding: 80px 10%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+section{
+  padding:90px 10%;
 }
 
-/* HERO */
-#hero h2 {
-  font-size: 3.5rem;
-  background: linear-gradient(90deg, #ffffff, #888);
-  -webkit-background-clip: text;
-  color: transparent;
+section h2{
+  font-size:3rem;
+  margin-bottom:20px;
+  background:linear-gradient(90deg,#fff,#aaa);
+  -webkit-background-clip:text;
+  color:transparent;
 }
 
-#hero p {
-  max-width: 600px;
-  margin-top: 20px;
-  font-size: 1.1rem;
-  color: #aaa;
+section p{
+  max-width:900px;
+  font-size:1.1rem;
+  color:#ccc;
+  line-height:1.8;
 }
 
-/* CARDS */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
-  margin-top: 50px;
+/* IMAGE */
+.image-box{
+  margin-top:50px;
+  text-align:center;
 }
 
-.card {
-  background: linear-gradient(160deg, #0a0a0a, #111);
-  border-radius: 20px;
-  padding: 30px;
-  transition: 0.4s;
-  border: 1px solid #1f1f1f;
+.image-box img{
+  width:100%;
+  max-width:900px;
+  border-radius:25px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6);
+  transition:.5s;
 }
 
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 0 40px rgba(0,255,231,0.15);
+.image-box img:hover{
+  transform:scale(1.03);
 }
 
-.card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+/* DETAILS GRID */
+.details{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
+  margin-top:50px;
 }
 
-.card p {
-  color: #bbb;
-  font-size: 0.95rem;
+.detail{
+  background:rgba(255,255,255,0.04);
+  padding:25px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.1);
 }
 
-/* LEGACY TEXT */
-#legacy h2 {
-  font-size: 3rem;
-}
-
-#legacy span {
-  color: #00ffe7;
+.detail h3{
+  color:#9fdcff;
+  margin-bottom:10px;
 }
 
 /* FOOTER */
-footer {
-  padding: 40px;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #666;
-}
-
-/* SCROLL ANIMATION */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: 1s;
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
+footer{
+  padding:40px;
+  text-align:center;
+  color:#888;
+  font-size:.9rem;
+  background:#000;
 }
 </style>
 </head>
 
 <body>
 
-<!-- INTRO -->
-<div id="intro">
-  <h1>AAYUSHMAN SINGH</h1>
-</div>
-
-<!-- HERO -->
-<section id="hero" class="reveal">
-  <h2>A Name That Represents Vision</h2>
+<header>
+  <h1>The Taj Mahal</h1>
   <p>
-    This is not a portfolio.  
-    This is a digital identity — built on ambition, clarity, and future dominance.
+    The Taj Mahal is one of the greatest architectural masterpieces in the world,
+    representing love, devotion, and the artistic excellence of the Mughal Empire.
+  </p>
+
+  <div class="info-grid">
+    <div class="info-box">
+      <h3>Location</h3>
+      <p>Agra, Uttar Pradesh, India</p>
+    </div>
+    <div class="info-box">
+      <h3>Built By</h3>
+      <p>Emperor Shah Jahan</p>
+    </div>
+    <div class="info-box">
+      <h3>In Memory Of</h3>
+      <p>Mumtaz Mahal</p>
+    </div>
+    <div class="info-box">
+      <h3>Completed</h3>
+      <p>1653 AD</p>
+    </div>
+  </div>
+</header>
+
+<section>
+  <h2>Introduction</h2>
+  <p>
+    The Taj Mahal is a magnificent white marble mausoleum built on the banks of the
+    Yamuna River. It was constructed by the Mughal Emperor Shah Jahan in memory of his
+    beloved wife Mumtaz Mahal. The monument stands as a symbol of eternal love and
+    unmatched architectural beauty.
   </p>
 </section>
 
-<!-- VISION -->
-<section class="reveal">
-  <h2>Vision</h2>
-  <div class="cards">
-    <div class="card">
-      <h3>Clarity</h3>
-      <p>Every move is intentional. Every step has direction.</p>
+<section>
+  <h2>History & Biography</h2>
+  <p>
+    Mumtaz Mahal died in 1631 during childbirth, deeply affecting Shah Jahan. To honor
+    her memory, he commissioned the construction of the Taj Mahal. Thousands of artisans,
+    architects, and laborers worked for more than 20 years to complete this masterpiece.
+    The Taj Mahal reflects a blend of Persian, Islamic, and Indian architectural styles.
+  </p>
+</section>
+
+<section>
+  <h2>Architectural Details</h2>
+  <div class="details">
+    <div class="detail">
+      <h3>Material Used</h3>
+      <p>White marble from Makrana, Rajasthan</p>
     </div>
-    <div class="card">
-      <h3>Growth</h3>
-      <p>Constant evolution. No limits. No ceiling.</p>
+    <div class="detail">
+      <h3>Main Dome</h3>
+      <p>Large central dome surrounded by four smaller domes</p>
     </div>
-    <div class="card">
-      <h3>Impact</h3>
-      <p>Built to influence, inspire, and lead.</p>
+    <div class="detail">
+      <h3>Minarets</h3>
+      <p>Four tall minarets symbolizing Islamic architecture</p>
+    </div>
+    <div class="detail">
+      <h3>Inlay Work</h3>
+      <p>Precious stones like jade, lapis lazuli, and turquoise</p>
     </div>
   </div>
 </section>
 
-<!-- POWER -->
-<section class="reveal">
-  <h2>Power</h2>
-  <div class="cards">
-    <div class="card">
-      <h3>Execution</h3>
-      <p>Ideas are nothing without action.</p>
-    </div>
-    <div class="card">
-      <h3>Consistency</h3>
-      <p>Success compounds daily.</p>
-    </div>
-    <div class="card">
-      <h3>Discipline</h3>
-      <p>Freedom is earned through control.</p>
-    </div>
+<section>
+  <h2>The Taj Mahal Image</h2>
+  <p>
+    Below is the magnificent view of the Taj Mahal, admired worldwide for its symmetry,
+    purity, and breathtaking beauty.
+  </p>
+
+  <div class="image-box">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Taj-Mahal.jpg" alt="Taj Mahal">
   </div>
 </section>
 
-<!-- LEGACY -->
-<section id="legacy" class="reveal">
-  <h2>Legacy of <span>Aayushman Singh</span></h2>
-  <p style="margin-top:20px;color:#aaa;max-width:700px;">
-    This page is not the end —  
-    it is the loading screen of what’s coming next.
+<section>
+  <h2>Global Importance</h2>
+  <p>
+    The Taj Mahal is a UNESCO World Heritage Site and one of the Seven Wonders of the World.
+    It attracts millions of tourists every year and represents India's rich cultural and
+    historical heritage on the global stage.
   </p>
 </section>
 
 <footer>
-  © 2026 | Aayushman Singh — Built Different
+  © 2026 | Taj Mahal Project | Designed for Excellence
 </footer>
-
-<script>
-/* SCROLL REVEAL */
-const reveals = document.querySelectorAll(".reveal");
-window.addEventListener("scroll", () => {
-  reveals.forEach(r => {
-    const top = r.getBoundingClientRect().top;
-    if (top < window.innerHeight - 100) {
-      r.classList.add("active");
-    }
-  });
-});
-</script>
 
 </body>
 </html>
