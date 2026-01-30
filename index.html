@@ -3,293 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taj Mahal: The Eternal Masterpiece</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:italic,wght@0,400;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Taj Mahal: The Definitive Digital Monograph</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #D4AF37;
-            --off-white: #f8f9fa;
-            --deep-black: #0a0a0a;
-            --glass: rgba(255, 255, 255, 0.05);
+            --gold: #C5A059;
+            --marble: #F2F2F2;
+            --deep-onyx: #0D0D0D;
+            --royal-accent: #1A1A1A;
+            --text-gray: #B0B0B0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--deep-black);
-            color: var(--off-white);
-            font-family: 'Poppins', sans-serif;
+            background-color: var(--deep-onyx);
+            color: var(--marble);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.8;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
-        /* --- Custom Scrollbar --- */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #111; }
-        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+        /* --- Global Animations --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* --- Background Graphics --- */
-        .ambient-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 100%);
-            z-index: -2;
-        }
-
-        /* --- Hero Section --- */
-        .hero {
+        /* --- Section Styling --- */
+        .full-parallax {
             height: 100vh;
-            width: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), var(--deep-black)),
-                        url('https://images.unsplash.com/photo-1548013146-72479768bbaa?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
             background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero-section {
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
+                              url('https://images.unsplash.com/photo-1564507592333-c60657ece523?auto=format&fit=crop&w=1920&q=80');
+        }
+
+        .hero-title {
             text-align: center;
-            padding: 20px;
+            z-index: 10;
         }
 
-        .hero h1 {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(3rem, 10vw, 7rem);
+        .hero-title h1 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(3rem, 10vw, 8rem);
             color: var(--gold);
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-            margin-bottom: 10px;
-            letter-spacing: 10px;
-            animation: fadeIn 2s ease-out;
+            letter-spacing: 15px;
+            margin-bottom: 0;
+            text-shadow: 0 0 30px rgba(197, 160, 89, 0.4);
         }
 
-        .hero p {
-            font-family: 'Lora', serif;
+        .hero-title p {
+            font-family: 'Playfair Display', serif;
             font-style: italic;
             font-size: 1.5rem;
-            max-width: 700px;
-            animation: fadeIn 3s ease-in;
+            letter-spacing: 5px;
         }
 
-        /* --- Main Content --- */
-        .content-wrapper {
-            max-width: 1200px;
+        /* --- Content Layout --- */
+        .content-container {
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 50px 20px;
+            padding: 100px 20px;
         }
 
-        .section {
-            margin-bottom: 100px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s ease-out;
+        .drop-cap::first-letter {
+            float: left;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 5rem;
+            line-height: 1;
+            padding-right: 15px;
+            color: var(--gold);
         }
 
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .title-group {
+        h2.section-header {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3rem;
+            color: var(--gold);
+            margin: 60px 0 30px;
             text-align: center;
+            border-bottom: 1px solid var(--gold);
+            display: block;
+            padding-bottom: 20px;
+        }
+
+        .info-block {
             margin-bottom: 50px;
+            animation: fadeIn 1s ease-in-out;
         }
 
-        .title-group h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            color: var(--gold);
-            display: inline-block;
-            border-bottom: 2px solid var(--gold);
-            padding-bottom: 10px;
+        /* --- Specific Detail Backgrounds --- */
+        .bg-detail-1 { 
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                              url('https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&w=1920&q=80');
         }
 
-        /* --- Glass Cards & Grids --- */
-        .details-grid {
+        .bg-detail-2 {
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                              url('https://images.unsplash.com/photo-1592635196078-9fdc757f27f4?auto=format&fit=crop&w=1920&q=80');
+        }
+
+        /* --- Gallery System --- */
+        .image-strip {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .info-card {
-            background: var(--glass);
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            padding: 30px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            transition: 0.4s;
-        }
-
-        .info-card:hover {
-            border-color: var(--gold);
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-5px);
-        }
-
-        .info-card h3 {
-            color: var(--gold);
-            margin-bottom: 15px;
-            font-family: 'Cinzel', serif;
-        }
-
-        /* --- Modern Gallery --- */
-        .photo-strip {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .photo-strip img {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 10px;
-            filter: brightness(0.8) contrast(1.1);
-            transition: 0.5s ease;
-            cursor: pointer;
-        }
-
-        .photo-strip img:hover {
-            filter: brightness(1);
-            transform: scale(1.02);
-        }
-
-        /* --- Fact Banner --- */
-        .banner {
-            background: linear-gradient(45deg, #111, #222);
-            border-left: 5px solid var(--gold);
-            padding: 40px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
             margin: 50px 0;
-            border-radius: 0 15px 15px 0;
         }
 
-        /* --- Footer --- */
+        .image-strip img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border: 2px solid var(--gold);
+            transition: 0.5s transform;
+        }
+
+        .image-strip img:hover { transform: scale(1.02); }
+
+        /* --- Typography details --- */
+        .essay-text {
+            font-size: 1.15rem;
+            color: var(--text-gray);
+            text-align: justify;
+        }
+
+        .highlight-box {
+            background: var(--royal-accent);
+            padding: 40px;
+            border-left: 5px solid var(--gold);
+            margin: 40px 0;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+
         footer {
-            text-align: center;
-            padding: 60px 20px;
             background: #000;
-            border-top: 1px solid var(--gold);
-        }
-
-        /* --- Animations --- */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 3.5rem; letter-spacing: 5px; }
-            .photo-strip { grid-template-columns: 1fr; }
+            padding: 80px 20px;
+            text-align: center;
+            border-top: 2px solid var(--gold);
         }
     </style>
 </head>
 <body>
 
-    <div class="ambient-bg"></div>
-
-    <section class="hero">
-        <h1>TAJ MAHAL</h1>
-        <p>"A Tear on the Face of Eternity"</p>
-        <div style="margin-top: 30px;">
-            <a href="#explore" style="color: var(--gold); text-decoration: none; border: 1px solid var(--gold); padding: 10px 25px; border-radius: 50px; font-size: 0.8rem; letter-spacing: 2px;">SCROLL TO DISCOVER</a>
+    <div class="full-parallax hero-section">
+        <div class="hero-title">
+            <h1>TAJ MAHAL</h1>
+            <p>A Symphony of White Marble</p>
         </div>
-    </section>
+    </div>
 
-    <div class="content-wrapper" id="explore">
-
-        <section class="section visible">
-            <div class="title-group">
-                <h2>The Grand Narrative</h2>
-            </div>
-            <div class="info-card">
-                <p>Located on the banks of the Yamuna River in Agra, India, the Taj Mahal is a breathtaking white marble mausoleum. Built between 1632 and 1653, it stands as the ultimate tribute to love, commissioned by Mughal Emperor Shah Jahan in memory of his beloved wife, Mumtaz Mahal. It is not just a building; it is a masterpiece of symmetry, engineering, and emotion.</p>
-            </div>
+    <div class="content-container">
+        
+        <section class="info-block">
+            <h2 class="section-header">The Eternal Love Story</h2>
+            <p class="essay-text drop-cap">
+                The Taj Mahal, often described as "a tear on the face of eternity," is the physical manifestation of Emperor Shah Jahan’s grief and devotion to his third wife, Mumtaz Mahal. Born Arjumand Banu Begum, she was the inseparable companion of the Emperor, advising him on state affairs and accompanying him on military campaigns. Her death in 1631 during the birth of their fourteenth child, Gauhara Begum, left the Emperor so devastated that his hair reportedly turned white overnight. 
+            </p>
+            <p class="essay-text">
+                The construction of the mausoleum began in 1632, one year after her death. It was designed not merely as a tomb, but as a representation of the House of Mumtaz Mahal in Paradise. The commitment to this project was absolute; for 22 years, the resources of the Mughal Empire were funneled into the dusty plains of Agra. Every detail, from the geometric precision of the Charbagh gardens to the delicate floral inlays on the cenotaphs, was overseen by the Emperor himself.
+            </p>
         </section>
 
-        <section class="section">
-            <div class="title-group">
-                <h2>Architectural Visuals</h2>
+        <div class="image-strip">
+            <img src="https://images.unsplash.com/photo-1524492707941-5f39722480f7?auto=format&fit=crop&w=800&q=80" alt="Taj Detail 1">
+            <img src="https://images.unsplash.com/photo-1585135761839-17dec7323fbd?auto=format&fit=crop&w=800&q=80" alt="Taj Detail 2">
+        </div>
+
+    </div>
+
+    <div class="full-parallax bg-detail-1">
+        <div class="content-container" style="background: rgba(0,0,0,0.6); padding: 50px; border-radius: 10px;">
+            <h2 style="color:var(--gold); font-family:'Cinzel Decorative';">The Architectural Mastery</h2>
+            <p class="essay-text">
+                The Taj Mahal is the zenith of Mughal architecture, a style that combined elements of Persian, Indian, and Islamic traditions. Unlike previous Mughal tombs built primarily of red sandstone, Shah Jahan promoted the use of white marble inlaid with semi-precious stones. The principal architect, Ustad Ahmad Lahauri, designed the complex as a "reproduction" of the gardens of heaven.
+            </p>
+        </div>
+    </div>
+
+    <div class="content-container">
+        
+        <section class="info-block">
+            <h2 class="section-header">Technical Specifications</h2>
+            <p class="essay-text">
+                The complex is centered around the 17-hectare site. The mausoleum itself stands on a square plinth, with four minarets framing the tomb. These minarets were built with a slight outward tilt, a clever engineering safeguard ensuring that in the event of a collapse, they would fall away from the main structure, protecting the central dome.
+            </p>
+            
+            <div class="highlight-box">
+                "The white marble was brought from the quarries of Makrana in Rajasthan, over 300 kilometers away. Legend says a 15-kilometer earthen ramp was built to haul the massive marble slabs to the top of the dome."
             </div>
-            <div class="photo-strip">
-                <img src="https://images.unsplash.com/photo-1564507592333-c60657ece523?q=80&w=1000&auto=format&fit=crop" alt="Front view of Taj Mahal">
-                <img src="https://images.unsplash.com/photo-1592635196078-9fdc757f27f4?q=80&w=1000&auto=format&fit=crop" alt="Detailing of Marble">
-                <img src="https://images.unsplash.com/photo-1524492707941-5f39722480f7?q=80&w=1000&auto=format&fit=crop" alt="The Dome at Sunset">
-                <img src="https://images.unsplash.com/photo-1585135761839-17dec7323fbd?q=80&w=1000&auto=format&fit=crop" alt="Gardens of Taj">
-            </div>
+
+            <h3 style="color:var(--gold); margin-top:30px;">The Inlay Work (Pietra Dura)</h3>
+            <p class="essay-text">
+                One of the most remarkable features is the *parchin kari* or Pietra Dura. Craftsmen used 28 different varieties of precious and semi-precious stones, including lapis lazuli from Afghanistan, turquoise from Tibet, and jade from China. These were carved into thin slivers and embedded into the white marble to create intricate floral patterns that appear to glow when struck by direct sunlight or moonlight.
+            </p>
         </section>
 
-        <section class="section">
-            <div class="title-group">
-                <h2>The Fine Details</h2>
-            </div>
-            <div class="details-grid">
-                <div class="info-card">
-                    <h3>Architecture</h3>
-                    <p>It blends Indo-Islamic and Persian styles. The main dome reaches a height of 73 meters (240 feet), surrounded by four smaller domes and four minarets. Every element is perfectly symmetrical.</p>
-                </div>
-                <div class="info-card">
-                    <h3>The Stones</h3>
-                    <p>Built from translucent white marble brought from Makrana, Rajasthan. It is inlaid with 28 types of precious and semi-precious stones, including Lapis Lazuli, Jade, and Crystal.</p>
-                </div>
-                <div class="info-card">
-                    <h3>The Calligraphy</h3>
-                    <p>The walls are adorned with verses from the Quran, created by the calligrapher Amanat Khan. The script grows larger as it moves up the wall to appear uniform from the ground.</p>
-                </div>
-            </div>
-        </section>
+        <div class="image-strip">
+            <img src="https://images.unsplash.com/photo-1564507592333-c60657ece523?auto=format&fit=crop&w=800&q=80" alt="Symmetry">
+            <img src="https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&w=800&q=80" alt="The River View">
+        </div>
 
-        <section class="section">
-            <div class="banner">
-                <h3 style="color: var(--gold); margin-bottom: 10px; font-family: 'Cinzel';">History & Legend</h3>
-                <p>Over 20,000 workers including stonecutters, painters, and embroidery artists were recruited from across the empire, Central Asia, and Iran. Legend says Shah Jahan planned to build a "Black Taj Mahal" across the river for himself, though he was eventually buried alongside Mumtaz in the original white monument after being imprisoned by his son, Aurangzeb.</p>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="title-group">
-                <h2>Visitor Information</h2>
-            </div>
-            <div class="details-grid">
-                <div class="info-card">
-                    <h3>Location</h3>
-                    <p>Dharmapuri, Forest Colony, Tajganj, Agra, Uttar Pradesh 282001, India.</p>
-                </div>
-                <div class="info-card">
-                    <h3>Best Time to Visit</h3>
-                    <p>October to March. The monument is especially stunning at sunrise and during full moon nights.</p>
-                </div>
-            </div>
+        <section class="info-block">
+            <h2 class="section-header">Legends and Myths</h2>
+            <p class="essay-text">
+                For centuries, the Taj Mahal has been the subject of countless myths. The most persistent is the story of the **Black Taj Mahal**. It is said that Shah Jahan intended to build an identical tomb for himself in black marble across the Yamuna River, connected by a bridge. While excavations at the Mehtab Bagh (the Moonlight Garden) revealed black stones, they were later identified as charred white marble pieces.
+            </p>
+            <p class="essay-text">
+                Another famous myth is that Shah Jahan ordered the hands of the workers to be chopped off so they could never recreate such beauty. Historians find no evidence for this; in fact, many of the same artisans went on to build the Red Fort and the Jama Masjid. 
+            </p>
         </section>
 
     </div>
 
+    <div class="full-parallax bg-detail-2">
+        <div class="content-container" style="background: rgba(0,0,0,0.6); padding: 50px; border-radius: 10px;">
+            <h2 style="color:var(--gold); font-family:'Cinzel Decorative';">Universal Heritage</h2>
+            <p class="essay-text">
+                Designated as a UNESCO World Heritage Site in 1983, the Taj Mahal attracts nearly 8 million visitors annually. It remains a symbol of India's rich cultural synthesis and a timeless reminder that love, when etched in stone, can survive the passage of centuries.
+            </p>
+        </div>
+    </div>
+
     <footer>
-        <h2 style="font-family: 'Cinzel'; color: var(--gold);">The Jewel of India</h2>
-        <p style="margin-top: 10px; opacity: 0.6;">UNESCO World Heritage Site since 1983</p>
+        <h1 style="font-family: 'Cinzel Decorative'; color: var(--gold);">THE JEWEL OF INDIA</h1>
+        <p style="margin-top: 20px; color: #555;">&copy; 2026 Digital Monumental Series. All Rights Reserved.</p>
     </footer>
 
-    <script>
-        // Smooth Scroll Animation Trigger
-        const sections = document.querySelectorAll('.section');
-        
-        const observerOptions = {
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        sections.forEach(section => {
-            observer.observe(section);
-        });
-    </script>
 </body>
 </html>
+
 
 
