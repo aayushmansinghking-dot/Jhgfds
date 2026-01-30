@@ -2,348 +2,221 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Aayushman Singh | Personal Brand</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aayushman Singh Game Hub</title>
+
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body,html{width:100%;height:100%;overflow:hidden;background:#111;font-family:Arial,sans-serif;color:#fff;}
-  .page{width:100%;height:100%;position:absolute;top:0;left:0;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.3s;}
-  .hidden{opacity:0;pointer-events:none;}
-  h1{margin-bottom:50px;text-align:center;font-size:3em;}
-  .buttons{display:flex;flex-wrap:wrap;gap:15px;justify-content:center;z-index:10;}
-  button{padding:20px 35px;font-size:20px;border:none;border-radius:10px;cursor:pointer;background:linear-gradient(45deg,#00FFFF,#FF00FF,#FFFF00);color:#111;font-weight:bold;transition:transform 0.3s;position:relative;z-index:10;}
-  button:hover{transform:scale(1.1);}
-  #back{position:absolute;top:20px;left:20px;padding:12px 18px;background:#FF4500;border:none;border-radius:8px;font-weight:bold;cursor:pointer;z-index:10;display:none;}
-  canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;}
-  #info{text-align:center;color:#FFD700;font-size:20px;position:absolute;bottom:20px;width:100%;z-index:10;}
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* BODY */
+body {
+  background: #050505;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* INTRO SCREEN */
+#intro {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #111 0%, #000 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  animation: fadeOut 1.5s ease 4.5s forwards;
+}
+
+#intro h1 {
+  font-size: 4rem;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #00ffe7, #0077ff);
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #00ffe7; }
+  to   { text-shadow: 0 0 30px #0077ff; }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* SECTIONS */
+section {
+  min-height: 100vh;
+  padding: 80px 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* HERO */
+#hero h2 {
+  font-size: 3.5rem;
+  background: linear-gradient(90deg, #ffffff, #888);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+#hero p {
+  max-width: 600px;
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: #aaa;
+}
+
+/* CARDS */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.card {
+  background: linear-gradient(160deg, #0a0a0a, #111);
+  border-radius: 20px;
+  padding: 30px;
+  transition: 0.4s;
+  border: 1px solid #1f1f1f;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 40px rgba(0,255,231,0.15);
+}
+
+.card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: #bbb;
+  font-size: 0.95rem;
+}
+
+/* LEGACY TEXT */
+#legacy h2 {
+  font-size: 3rem;
+}
+
+#legacy span {
+  color: #00ffe7;
+}
+
+/* FOOTER */
+footer {
+  padding: 40px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* SCROLL ANIMATION */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 1s;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>
 </head>
+
 <body>
 
-<div id="menu" class="page">
-  <h1>Aayushman Singh Game Hub</h1>
-  <div class="buttons">
-    <button data-game="puzzle">Name Puzzle</button>
-    <button data-game="typing">Typing Challenge</button>
-    <button data-game="catch">Letter Catch</button>
-    <button data-game="shooter">Name Shooter</button>
-    <button data-game="memory">Memory Game</button>
-    <button data-game="obstacle">Obstacle Run</button>
-  </div>
+<!-- INTRO -->
+<div id="intro">
+  <h1>AAYUSHMAN SINGH</h1>
 </div>
 
-<button id="back">← Back</button>
-<canvas id="canvas"></canvas>
-<div id="info"></div>
+<!-- HERO -->
+<section id="hero" class="reveal">
+  <h2>A Name That Represents Vision</h2>
+  <p>
+    This is not a portfolio.  
+    This is a digital identity — built on ambition, clarity, and future dominance.
+  </p>
+</section>
+
+<!-- VISION -->
+<section class="reveal">
+  <h2>Vision</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Clarity</h3>
+      <p>Every move is intentional. Every step has direction.</p>
+    </div>
+    <div class="card">
+      <h3>Growth</h3>
+      <p>Constant evolution. No limits. No ceiling.</p>
+    </div>
+    <div class="card">
+      <h3>Impact</h3>
+      <p>Built to influence, inspire, and lead.</p>
+    </div>
+  </div>
+</section>
+
+<!-- POWER -->
+<section class="reveal">
+  <h2>Power</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Execution</h3>
+      <p>Ideas are nothing without action.</p>
+    </div>
+    <div class="card">
+      <h3>Consistency</h3>
+      <p>Success compounds daily.</p>
+    </div>
+    <div class="card">
+      <h3>Discipline</h3>
+      <p>Freedom is earned through control.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LEGACY -->
+<section id="legacy" class="reveal">
+  <h2>Legacy of <span>Aayushman Singh</span></h2>
+  <p style="margin-top:20px;color:#aaa;max-width:700px;">
+    This page is not the end —  
+    it is the loading screen of what’s coming next.
+  </p>
+</section>
+
+<footer>
+  © 2026 | Aayushman Singh — Built Different
+</footer>
 
 <script>
-const menu = document.getElementById('menu');
-const backBtn = document.getElementById('back');
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const info = document.getElementById('info');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let currentGame = null;
-const name = "Aayushman Singh";
-let animateId;
-
-// === MENU BUTTONS ===
-document.querySelectorAll('button[data-game]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-        currentGame = btn.getAttribute('data-game');
-        menu.classList.add('hidden');
-        backBtn.style.display='block';
-        info.textContent = '';
-        startGame(currentGame);
-    });
+/* SCROLL REVEAL */
+const reveals = document.querySelectorAll(".reveal");
+window.addEventListener("scroll", () => {
+  reveals.forEach(r => {
+    const top = r.getBoundingClientRect().top;
+    if (top < window.innerHeight - 100) {
+      r.classList.add("active");
+    }
+  });
 });
-
-// === BACK BUTTON ===
-backBtn.addEventListener('click', ()=>{
-    currentGame = null;
-    menu.classList.remove('hidden');
-    backBtn.style.display='none';
-    cancelAnimationFrame(animateId);
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    info.textContent = '';
-});
-
-// === START GAME FUNCTION ===
-function startGame(game){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    cancelAnimationFrame(animateId);
-    if(game==="puzzle") puzzleGame();
-    else if(game==="typing") typingGame();
-    else if(game==="catch") catchGame();
-    else if(game==="shooter") shooterGame();
-    else if(game==="memory") memoryGame();
-    else if(game==="obstacle") obstacleGame();
-}
-
-// === 1️⃣ NAME PUZZLE ===
-function puzzleGame(){
-    info.textContent = "Drag letters to form your name!";
-    const letters = name.split('').map((c,i)=>{
-        return {char:c,x:50+i*100,y:canvas.height/2,width:80,height:80};
-    });
-
-    let dragging = null;
-
-    function draw(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        letters.forEach(l=>{
-            ctx.fillStyle="cyan";
-            ctx.fillRect(l.x,l.y,l.width,l.height);
-            ctx.fillStyle="black";
-            ctx.font="bold 60px Arial";
-            ctx.fillText(l.char,l.x+15,l.y+60);
-        });
-        // Check win
-        let correct = letters.every((l,i)=>l.x >= 50+i*100-10 && l.x <= 50+i*100+10);
-        if(correct){
-            info.textContent = "🎉 Puzzle Solved! Click Back to return.";
-        }
-        animateId=requestAnimationFrame(draw);
-    }
-
-    draw();
-
-    canvas.onmousedown = e=>{
-        letters.forEach(l=>{
-            if(e.offsetX>l.x && e.offsetX<l.x+l.width && e.offsetY>l.y && e.offsetY<l.y+l.height){
-                dragging=l;
-            }
-        });
-    }
-
-    canvas.onmousemove = e=>{
-        if(dragging){
-            dragging.x = e.offsetX - dragging.width/2;
-            dragging.y = e.offsetY - dragging.height/2;
-        }
-    }
-
-    canvas.onmouseup = e=>{
-        dragging=null;
-    }
-}
-
-// === 2️⃣ TYPING CHALLENGE ===
-function typingGame(){
-    info.textContent = "Type falling letters before they hit the bottom!";
-    let letters = [];
-    let score=0;
-
-    function spawnLetter(){
-        letters.push({char:name[Math.floor(Math.random()*name.length)],x:Math.random()*canvas.width,y:0,vy:2+Math.random()*2});
-        if(currentGame==="typing") setTimeout(spawnLetter,500);
-    }
-    spawnLetter();
-
-    document.onkeydown=e=>{
-        for(let i=0;i<letters.length;i++){
-            if(e.key.toUpperCase()===letters[i].char.toUpperCase()){
-                letters.splice(i,1);
-                score++;
-                info.textContent = `Score: ${score}`;
-                break;
-            }
-        }
-    }
-
-    function draw(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        letters.forEach(l=>{
-            ctx.fillStyle="lime";
-            ctx.font="bold 70px Arial";
-            ctx.fillText(l.char,l.x,l.y);
-            l.y+=l.vy;
-        });
-        letters=letters.filter(l=>l.y<canvas.height);
-        animateId=requestAnimationFrame(draw);
-    }
-    draw();
-}
-
-// === 3️⃣ LETTER CATCH ===
-function catchGame(){
-    info.textContent="Catch letters in order!";
-    const basket = {x:canvas.width/2,y:canvas.height-50,width:150,height:20};
-    let letters=[];
-    let caught=0;
-
-    function spawnLetter(){
-        letters.push({char:name[caught%name.length],x:Math.random()*(canvas.width-50),y:0,vy:3+Math.random()*2});
-        if(currentGame==="catch") setTimeout(spawnLetter,1000);
-    }
-    spawnLetter();
-
-    document.onmousemove=e=>{
-        basket.x=e.offsetX-basket.width/2;
-    }
-
-    function draw(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle="white";
-        ctx.fillRect(basket.x,basket.y,basket.width,basket.height);
-        letters.forEach((l,i)=>{
-            ctx.fillStyle="orange";
-            ctx.font="bold 60px Arial";
-            ctx.fillText(l.char,l.x,l.y);
-            l.y+=l.vy;
-            if(l.y>=basket.y && l.x>basket.x && l.x<basket.x+basket.width){
-                caught++;
-                letters.splice(i,1);
-                if(caught>=name.length){
-                    info.textContent="🎉 You caught all letters! Click Back.";
-                }
-            }
-        });
-        animateId=requestAnimationFrame(draw);
-    }
-    draw();
-}
-
-// === 4️⃣ NAME SHOOTER ===
-function shooterGame(){
-    info.textContent="Click letters to shoot them!";
-    let letters=[];
-    let destroyed=0;
-
-    function spawnLetters(){
-        letters=[];
-        for(let i=0;i<name.length;i++){
-            letters.push({char:name[i],x:Math.random()*(canvas.width-50),y:Math.random()*(canvas.height-300)+50});
-        }
-    }
-    spawnLetters();
-
-    canvas.onclick=e=>{
-        letters.forEach((l,i)=>{
-            if(e.offsetX>l.x && e.offsetX<l.x+50 && e.offsetY>l.y-50 && e.offsetY<l.y){
-                letters.splice(i,1);
-                destroyed++;
-                if(destroyed>=name.length){
-                    info.textContent="🎉 All letters destroyed! Click Back.";
-                }
-            }
-        });
-    }
-
-    function draw(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        letters.forEach(l=>{
-            ctx.fillStyle="red";
-            ctx.font="bold 70px Arial";
-            ctx.fillText(l.char,l.x,l.y);
-        });
-        animateId=requestAnimationFrame(draw);
-    }
-    draw();
-}
-
-// === 5️⃣ MEMORY GAME ===
-function memoryGame(){
-    info.textContent="Match the letters!";
-    let cards=[];
-    name.split('').forEach(c=>{
-        cards.push({char:c,flipped:false});
-        cards.push({char:c,flipped:false});
-    });
-    cards.sort(()=>Math.random()-0.5);
-    const rows = 4;
-    const cols = Math.ceil(cards.length/rows);
-    const cardW = canvas.width/cols-20;
-    const cardH = canvas.height/rows-20;
-    let first=null;
-
-    canvas.onclick=e=>{
-        cards.forEach((card,i)=>{
-            let col = i%cols;
-            let row = Math.floor(i/cols);
-            let x = col*(cardW+10)+10;
-            let y = row*(cardH+10)+10;
-            if(e.offsetX>x && e.offsetX<x+cardW && e.offsetY>y && e.offsetY<y+cardH && !card.flipped){
-                card.flipped=true;
-                if(first===null) first=i;
-                else{
-                    if(cards[first].char===card.char){
-                        first=null;
-                        if(cards.every(c=>c.flipped)) info.textContent="🎉 Memory Completed! Click Back.";
-                    }else{
-                        setTimeout(()=>{cards[first].flipped=false;card.flipped=false;first=null;},500);
-                    }
-                }
-            }
-        });
-    }
-
-    function draw(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        cards.forEach((card,i)=>{
-            let col = i%cols;
-            let row = Math.floor(i/cols);
-            let x = col*(cardW+10)+10;
-            let y = row*(cardH+10)+10;
-            ctx.fillStyle=card.flipped?"cyan":"#555";
-            ctx.fillRect(x,y,cardW,cardH);
-            if(card.flipped){
-                ctx.fillStyle="black";
-                ctx.font=`bold ${cardH/2}px Arial`;
-                ctx.fillText(card.char,x+cardW/4,y+cardH/1.5);
-            }
-        });
-        animateId=requestAnimationFrame(draw);
-    }
-    draw();
-}
-
-// === 6️⃣ OBSTACLE RUN ===
-function obstacleGame(){
-    info.textContent="Avoid obstacles!";
-    const letters = name.split('').map((c,i)=>{
-        return {char:c,x:50+i*100,y:canvas.height/2,vx:0,vy:0};
-    });
-    const obstacles = [];
-    let score=0;
-
-    function spawnObstacle(){
-        obstacles.push({x:canvas.width,y:Math.random()*canvas.height/2,width:50,height:50});
-        if(currentGame==="obstacle") setTimeout(spawnObstacle,1500);
-    }
-    spawnObstacle();
-
-    document.onkeydown=e=>{
-        if(e.key==="ArrowUp") letters.forEach(l=>l.y-=20);
-        if(e.key==="ArrowDown") letters.forEach(l=>l.y+=20);
-    }
-
-    function draw(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        letters.forEach(l=>{
-            ctx.fillStyle="lime";
-            ctx.font="bold 60px Arial";
-            ctx.fillText(l.char,l.x,l.y);
-        });
-        obstacles.forEach((o,i)=>{
-            ctx.fillStyle="red";
-            ctx.fillRect(o.x,o.y,o.width,o.height);
-            o.x-=5;
-            letters.forEach(l=>{
-                if(l.x<o.x+o.width && l.x+50>o.x && l.y<o.y+o.height && l.y+50>o.y){
-                    info.textContent="💥 Hit! Click Back to retry.";
-                    cancelAnimationFrame(animateId);
-                }
-            });
-            if(o.x+o.width<0) obstacles.splice(i,1);
-        });
-        animateId=requestAnimationFrame(draw);
-    }
-    draw();
-}
-
 </script>
+
 </body>
 </html>
