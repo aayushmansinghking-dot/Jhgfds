@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>The Taj Mahal | Symbol of Eternal Love</title>
+<title>Taj Mahal – Symbol of Eternal Love</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -10,224 +10,196 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family: "Segoe UI", sans-serif;
+  font-family:"Segoe UI",sans-serif;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
-  background: linear-gradient(180deg,#0b1d2a,#000);
-  color:#fff;
-  overflow-x:hidden;
+  color:white;
+  background:black;
 }
 
-/* HEADER */
-header{
-  min-height:100vh;
-  padding:80px 10%;
-  background: radial-gradient(circle at top,#123,#000);
+/* HERO / HOME */
+#home{
+  height:100vh;
+  background:
+    linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.8)),
+    url("https://upload.wikimedia.org/wikipedia/commons/d/da/Taj-Mahal.jpg");
+  background-size:cover;
+  background-position:center;
   display:flex;
   flex-direction:column;
   justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
 }
 
-header h1{
+#home h1{
   font-size:4rem;
-  background: linear-gradient(90deg,#ffffff,#bcdcff);
-  -webkit-background-clip:text;
-  color:transparent;
+  letter-spacing:4px;
 }
 
-header p{
-  max-width:750px;
-  margin-top:20px;
-  font-size:1.15rem;
-  color:#d0d0d0;
+#home p{
+  max-width:800px;
+  margin:20px auto;
+  font-size:1.2rem;
+  color:#ddd;
 }
 
-/* NAV INFO */
-.info-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:25px;
-  margin-top:50px;
+/* BUTTONS */
+.menu{
+  margin-top:40px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
 }
 
-.info-box{
-  background:rgba(255,255,255,0.05);
-  padding:25px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,0.1);
-  transition:.4s;
+.menu a{
+  text-decoration:none;
+  padding:14px 30px;
+  border-radius:30px;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.4);
+  color:white;
+  font-weight:600;
+  transition:0.4s;
 }
 
-.info-box:hover{
-  transform:translateY(-8px);
-  box-shadow:0 0 30px rgba(255,255,255,0.15);
-}
-
-.info-box h3{
-  margin-bottom:10px;
-  color:#9fdcff;
+.menu a:hover{
+  background:white;
+  color:black;
 }
 
 /* SECTIONS */
 section{
-  padding:90px 10%;
+  min-height:100vh;
+  padding:90px 12%;
+  background:linear-gradient(180deg,#050505,#000);
 }
 
 section h2{
   font-size:3rem;
   margin-bottom:20px;
-  background:linear-gradient(90deg,#fff,#aaa);
-  -webkit-background-clip:text;
-  color:transparent;
+  color:#e8e8e8;
 }
 
 section p{
   max-width:900px;
   font-size:1.1rem;
-  color:#ccc;
   line-height:1.8;
+  color:#cfcfcf;
 }
 
-/* IMAGE */
-.image-box{
-  margin-top:50px;
+/* IMAGE INSIDE SECTIONS */
+.section-image{
+  margin-top:40px;
   text-align:center;
 }
 
-.image-box img{
+.section-image img{
   width:100%;
-  max-width:900px;
-  border-radius:25px;
-  box-shadow:0 30px 80px rgba(0,0,0,0.6);
-  transition:.5s;
-}
-
-.image-box img:hover{
-  transform:scale(1.03);
-}
-
-/* DETAILS GRID */
-.details{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:30px;
-  margin-top:50px;
-}
-
-.detail{
-  background:rgba(255,255,255,0.04);
-  padding:25px;
+  max-width:850px;
   border-radius:20px;
-  border:1px solid rgba(255,255,255,0.1);
-}
-
-.detail h3{
-  color:#9fdcff;
-  margin-bottom:10px;
+  box-shadow:0 25px 70px rgba(0,0,0,0.7);
 }
 
 /* FOOTER */
 footer{
-  padding:40px;
   text-align:center;
+  padding:30px;
+  background:black;
   color:#888;
-  font-size:.9rem;
-  background:#000;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>The Taj Mahal</h1>
+<!-- HOME -->
+<div id="home">
+  <h1>TAJ MAHAL</h1>
   <p>
-    The Taj Mahal is one of the greatest architectural masterpieces in the world,
-    representing love, devotion, and the artistic excellence of the Mughal Empire.
+    A timeless monument of love, beauty, and architectural excellence,
+    admired across the world.
   </p>
 
-  <div class="info-grid">
-    <div class="info-box">
-      <h3>Location</h3>
-      <p>Agra, Uttar Pradesh, India</p>
-    </div>
-    <div class="info-box">
-      <h3>Built By</h3>
-      <p>Emperor Shah Jahan</p>
-    </div>
-    <div class="info-box">
-      <h3>In Memory Of</h3>
-      <p>Mumtaz Mahal</p>
-    </div>
-    <div class="info-box">
-      <h3>Completed</h3>
-      <p>1653 AD</p>
-    </div>
+  <div class="menu">
+    <a href="#introduction">Introduction</a>
+    <a href="#history">Biography / History</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#importance">Importance</a>
+    <a href="#gallery">Gallery</a>
   </div>
-</header>
+</div>
 
-<section>
+<!-- INTRODUCTION -->
+<section id="introduction">
   <h2>Introduction</h2>
   <p>
-    The Taj Mahal is a magnificent white marble mausoleum built on the banks of the
-    Yamuna River. It was constructed by the Mughal Emperor Shah Jahan in memory of his
-    beloved wife Mumtaz Mahal. The monument stands as a symbol of eternal love and
-    unmatched architectural beauty.
+    The Taj Mahal is a magnificent white marble mausoleum located in Agra,
+    Uttar Pradesh. Built by Mughal Emperor Shah Jahan in memory of his wife
+    Mumtaz Mahal, it symbolizes eternal love and devotion. The Taj Mahal is
+    admired for its perfect symmetry, artistic beauty, and historical value.
   </p>
+
+  <div class="section-image">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Taj_Mahal_%28Edited%29.jpg">
+  </div>
 </section>
 
-<section>
-  <h2>History & Biography</h2>
+<!-- HISTORY -->
+<section id="history">
+  <h2>Biography & History</h2>
   <p>
-    Mumtaz Mahal died in 1631 during childbirth, deeply affecting Shah Jahan. To honor
-    her memory, he commissioned the construction of the Taj Mahal. Thousands of artisans,
-    architects, and laborers worked for more than 20 years to complete this masterpiece.
-    The Taj Mahal reflects a blend of Persian, Islamic, and Indian architectural styles.
+    Mumtaz Mahal died in 1631 while giving birth to their fourteenth child.
+    Grief-stricken, Shah Jahan decided to build a grand monument to honor her.
+    Construction began in 1632 and took more than 20 years. Thousands of artisans,
+    architects, and workers contributed to this masterpiece.
   </p>
 </section>
 
-<section>
+<!-- ARCHITECTURE -->
+<section id="architecture">
   <h2>Architectural Details</h2>
-  <div class="details">
-    <div class="detail">
-      <h3>Material Used</h3>
-      <p>White marble from Makrana, Rajasthan</p>
-    </div>
-    <div class="detail">
-      <h3>Main Dome</h3>
-      <p>Large central dome surrounded by four smaller domes</p>
-    </div>
-    <div class="detail">
-      <h3>Minarets</h3>
-      <p>Four tall minarets symbolizing Islamic architecture</p>
-    </div>
-    <div class="detail">
-      <h3>Inlay Work</h3>
-      <p>Precious stones like jade, lapis lazuli, and turquoise</p>
-    </div>
-  </div>
-</section>
-
-<section>
-  <h2>The Taj Mahal Image</h2>
   <p>
-    Below is the magnificent view of the Taj Mahal, admired worldwide for its symmetry,
-    purity, and breathtaking beauty.
+    The Taj Mahal is built using white marble from Makrana, Rajasthan.
+    It combines Persian, Islamic, and Indian architectural styles.
+    The central dome, four minarets, intricate carvings, and precious stone
+    inlay work make it one of the finest architectural achievements in history.
   </p>
 
-  <div class="image-box">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Taj-Mahal.jpg" alt="Taj Mahal">
+  <div class="section-image">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/Taj_Mahal_Minarets.jpg">
   </div>
 </section>
 
-<section>
+<!-- IMPORTANCE -->
+<section id="importance">
   <h2>Global Importance</h2>
   <p>
-    The Taj Mahal is a UNESCO World Heritage Site and one of the Seven Wonders of the World.
-    It attracts millions of tourists every year and represents India's rich cultural and
-    historical heritage on the global stage.
+    The Taj Mahal is a UNESCO World Heritage Site and one of the Seven Wonders
+    of the World. It attracts millions of tourists every year and represents
+    India’s rich cultural heritage and historical excellence on a global scale.
   </p>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <h2>Gallery</h2>
+  <p>
+    The Taj Mahal appears different at various times of the day — glowing
+    softly at sunrise, shining white under sunlight, and appearing golden
+    under moonlight.
+  </p>
+
+  <div class="section-image">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Taj_Mahal_at_sunrise.jpg">
+  </div>
 </section>
 
 <footer>
